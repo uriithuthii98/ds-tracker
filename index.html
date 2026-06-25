@@ -94,10 +94,10 @@
 
             <div class="flex items-center gap-3 bg-souls-dark border border-souls-border p-2 rounded-lg">
                 <span class="text-xs text-souls-ash uppercase font-bold px-2">Modo actual:</span>
-                <button id="btnRoleViewer" class="px-3 py-1.5 rounded text-xs font-bold tracking-wider uppercase transition-all duration-300 bg-souls-gold text-souls-darkest shadow-lg" onclick="window.setRole('viewer')">
+                <button id="btnRoleViewer" class="px-3 py-1.5 rounded text-xs font-bold tracking-wider uppercase transition-all duration-300 bg-souls-gold text-souls-darkest shadow-lg" onclick="setRole('viewer')">
                     Espectador
                 </button>
-                <button id="btnRoleStreamer" class="px-3 py-1.5 rounded text-xs font-bold tracking-wider uppercase transition-all duration-300 bg-souls-border text-souls-ash" onclick="window.setRole('streamer')">
+                <button id="btnRoleStreamer" class="px-3 py-1.5 rounded text-xs font-bold tracking-wider uppercase transition-all duration-300 bg-souls-border text-souls-ash" onclick="setRole('streamer')">
                     Streamer
                 </button>
             </div>
@@ -157,10 +157,10 @@
                 <div class="mt-6 flex flex-wrap gap-3 items-center justify-between border-t border-souls-border pt-4">
                     <div id="streamerConfigArea" class="hidden flex items-center gap-2">
                         <input type="password" id="inputPIN" placeholder="PIN de control (Ej: 1234)" class="bg-souls-darkest border border-souls-border text-sm px-3 py-1.5 rounded focus:outline-none focus:border-souls-gold text-souls-gold w-36">
-                        <button class="bg-souls-border hover:bg-souls-border/80 text-souls-ash px-3 py-1.5 rounded text-xs uppercase font-bold tracking-wider" onclick="window.verifyAndAuthStreamer()">Acceder</button>
+                        <button class="bg-souls-border hover:bg-souls-border/80 text-souls-ash px-3 py-1.5 rounded text-xs uppercase font-bold tracking-wider" onclick="verifyAndAuthStreamer()">Acceder</button>
                     </div>
                     <span id="roleNotice" class="text-xs text-souls-ash italic">Viendo en modo de espectador. Los cambios están bloqueados.</span>
-                    <button id="btnResetAll" class="hidden bg-red-950/20 hover:bg-red-950/40 border border-red-900/50 text-red-400 px-4 py-1.5 rounded text-xs font-bold uppercase tracking-wider" onclick="window.confirmResetAll()">
+                    <button id="btnResetAll" class="hidden bg-red-950/20 hover:bg-red-950/40 border border-red-900/50 text-red-400 px-4 py-1.5 rounded text-xs font-bold uppercase tracking-wider" onclick="confirmResetAll()">
                         Reiniciar Todo
                     </button>
                 </div>
@@ -200,7 +200,7 @@
                                 <h4 class="font-cinzel text-sm font-bold text-souls-gold tracking-wider">Sorceress (24)</h4>
                                 <span id="badgeProg_hechizos" class="text-xs font-bold text-souls-ash">0/24</span>
                             </div>
-                            <button class="w-full bg-souls-card hover:bg-souls-card/80 text-souls-ash text-xs py-1.5 rounded border border-souls-border mb-3 font-semibold uppercase tracking-wider transition-all duration-200" onclick="window.toggleSublist('sub_hechizos')">
+                            <button class="w-full bg-souls-card hover:bg-souls-card/80 text-souls-ash text-xs py-1.5 rounded border border-souls-border mb-3 font-semibold uppercase tracking-wider transition-all duration-200" onclick="toggleSublist('sub_hechizos')">
                                 Desplegar Hechizos
                             </button>
                             <div id="sub_hechizos" class="hidden flex flex-col gap-2 max-h-64 overflow-y-auto pr-1"></div>
@@ -211,7 +211,7 @@
                                 <h4 class="font-cinzel text-sm font-bold text-souls-gold tracking-wider">Pyromancy (19)</h4>
                                 <span id="badgeProg_piromancias" class="text-xs font-bold text-souls-ash">0/19</span>
                             </div>
-                            <button class="w-full bg-souls-card hover:bg-souls-card/80 text-souls-ash text-xs py-1.5 rounded border border-souls-border mb-3 font-semibold uppercase tracking-wider transition-all duration-200" onclick="window.toggleSublist('sub_piromancias')">
+                            <button class="w-full bg-souls-card hover:bg-souls-card/80 text-souls-ash text-xs py-1.5 rounded border border-souls-border mb-3 font-semibold uppercase tracking-wider transition-all duration-200" onclick="toggleSublist('sub_piromancias')">
                                 Desplegar Piromancias
                             </button>
                             <div id="sub_piromancias" class="hidden flex flex-col gap-2 max-h-64 overflow-y-auto pr-1"></div>
@@ -222,7 +222,7 @@
                                 <h4 class="font-cinzel text-sm font-bold text-souls-gold tracking-wider">Miracles (23)</h4>
                                 <span id="badgeProg_milagros" class="text-xs font-bold text-souls-ash">0/23</span>
                             </div>
-                            <button class="w-full bg-souls-card hover:bg-souls-card/80 text-souls-ash text-xs py-1.5 rounded border border-souls-border mb-3 font-semibold uppercase tracking-wider transition-all duration-200" onclick="window.toggleSublist('sub_milagros')">
+                            <button class="w-full bg-souls-card hover:bg-souls-card/80 text-souls-ash text-xs py-1.5 rounded border border-souls-border mb-3 font-semibold uppercase tracking-wider transition-all duration-200" onclick="toggleSublist('sub_milagros')">
                                 Desplegar Milagros
                             </button>
                             <div id="sub_milagros" class="hidden flex flex-col gap-2 max-h-64 overflow-y-auto pr-1"></div>
@@ -242,12 +242,12 @@
                     <div class="flex flex-col md:flex-row gap-3 mb-4">
                         <div class="relative flex-grow">
                             <span class="material-icons absolute left-3 top-2 text-souls-ash text-lg">search</span>
-                            <input type="text" id="searchWeapons" placeholder="Buscar armas por nombre..." oninput="window.filterWeapons()" class="w-full bg-souls-darkest border border-souls-border rounded pl-10 pr-4 py-1.5 text-sm focus:outline-none focus:border-souls-gold placeholder-souls-ash">
+                            <input type="text" id="searchWeapons" placeholder="Buscar armas por nombre..." oninput="filterWeapons()" class="w-full bg-souls-darkest border border-souls-border rounded pl-10 pr-4 py-1.5 text-sm focus:outline-none focus:border-souls-gold placeholder-souls-ash">
                         </div>
                         <div class="flex gap-2">
-                            <button class="bg-souls-card hover:bg-souls-card/80 border border-souls-border text-xs px-3 py-1.5 rounded text-souls-ash font-bold uppercase tracking-wider transition-all" onclick="window.setWeaponFilter('all')">Todas</button>
-                            <button class="bg-souls-card hover:bg-souls-card/80 border border-souls-border text-xs px-3 py-1.5 rounded text-souls-ash font-bold uppercase tracking-wider transition-all" onclick="window.setWeaponFilter('boss')">Jefes</button>
-                            <button class="bg-souls-card hover:bg-souls-card/80 border border-souls-border text-xs px-3 py-1.5 rounded text-souls-ash font-bold uppercase tracking-wider transition-all" onclick="window.setWeaponFilter('tails')">Colas</button>
+                            <button class="bg-souls-card hover:bg-souls-card/80 border border-souls-border text-xs px-3 py-1.5 rounded text-souls-ash font-bold uppercase tracking-wider transition-all" onclick="setWeaponFilter('all')">Todas</button>
+                            <button class="bg-souls-card hover:bg-souls-card/80 border border-souls-border text-xs px-3 py-1.5 rounded text-souls-ash font-bold uppercase tracking-wider transition-all" onclick="setWeaponFilter('boss')">Jefes</button>
+                            <button class="bg-souls-card hover:bg-souls-card/80 border border-souls-border text-xs px-3 py-1.5 rounded text-souls-ash font-bold uppercase tracking-wider transition-all" onclick="setWeaponFilter('tails')">Colas</button>
                         </div>
                     </div>
 
@@ -269,7 +269,7 @@
             <p class="text-gray-300 text-sm leading-relaxed mb-6">
                 Has superado todos los desafíos del juego base de Lordran. Todas las almas, pactos, magias y reliquias han sido consolidados. Eres el verdadero Señor de la Ceniza.
             </p>
-            <button class="bg-souls-gold text-souls-darkest hover:bg-souls-goldHover font-bold uppercase tracking-wider text-xs px-6 py-2.5 rounded transition-all duration-300" onclick="window.closeSuccessModal()">
+            <button class="bg-souls-gold text-souls-darkest hover:bg-souls-goldHover font-bold uppercase tracking-wider text-xs px-6 py-2.5 rounded transition-all duration-300" onclick="closeSuccessModal()">
                 Regresar al Nexo
             </button>
         </div>
@@ -280,102 +280,101 @@
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
         import { getFirestore, doc, setDoc, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
-        // === DATOS E INFRAESTRUCTURA DE CHECKS ===
         const trackerData = {
             historia: [
-                { id: "h_0", label: "Enlazar el Fuego (Final A)", type: "normal" },
-                { id: "h_1", label: "Señor Oscuro (Final B)", type: "normal" },
-                { id: "h_2", label: "Gárgola de la Campana (Tocar Iglesia)", type: "normal" },
-                { id: "h_3", label: "Bruja de Quelaag (Tocar Dominio)", type: "normal" },
-                { id: "h_4", label: "Superar la Fortaleza de Sen", type: "normal" },
-                { id: "h_5", label: "Conseguir la Vasija del Señor", type: "normal" },
-                { id: "h_6", label: "Derrotar a Seath el Descamado", type: "normal" },
-                { id: "h_7", label: "Derrotar a los Cuatro Reyes", type: "normal" },
-                { id: "h_8", label: "Derrotar a Nito el Rey del Cementerio", type: "normal" },
-                { id: "h_9", label: "Derrotar al Lecho del Caos", type: "normal" }
+                { id: "h_0", label: "Enlazar el Fuego (Final A)" },
+                { id: "h_1", label: "Señor Oscuro (Final B)" },
+                { id: "h_2", label: "Gárgola de la Campana (Tocar Iglesia)" },
+                { id: "h_3", label: "Bruja de Quelaag (Tocar Dominio)" },
+                { id: "h_4", label: "Superar la Fortaleza de Sen" },
+                { id: "h_5", label: "Conseguir la Vasija del Señor" },
+                { id: "h_6", label: "Derrotar a Seath el Descamado" },
+                { id: "h_7", label: "Derrotar a los Cuatro Reyes" },
+                { id: "h_8", label: "Derrotar a Nito el Rey del Cementerio" },
+                { id: "h_9", label: "Derrotar al Lecho del Caos" }
             ],
             pactos: [
-                { id: "p_0", label: "Pacto: Vía Blanca", type: "normal" },
-                { id: "p_1", label: "Pacto: Guardia de la Princesa", type: "normal" },
-                { id: "p_2", label: "Pacto: Espada de la Luna Oscura", type: "normal" },
-                { id: "p_3", label: "Pacto: Guerrero de la Luz Solar", type: "normal" },
-                { id: "p_4", label: "Pacto: Siervo del Caos", type: "normal" },
-                { id: "p_5", label: "Pacto: Camino del Dragón", type: "normal" },
-                { id: "p_6", label: "Pacto: Cazador de los Bosques", type: "normal" },
-                { id: "p_7", label: "Pacto: Espectro Oscuro", type: "normal" },
-                { id: "p_8", label: "Pacto: Siervo del Rey del Cementerio", type: "normal" }
+                { id: "p_0", label: "Pacto: Vía Blanca" },
+                { id: "p_1", label: "Pacto: Guardia de la Princesa" },
+                { id: "p_2", label: "Pacto: Espada de la Luna Oscura" },
+                { id: "p_3", label: "Pacto: Guerrero de la Luz Solar" },
+                { id: "p_4", label: "Pacto: Siervo del Caos" },
+                { id: "p_5", label: "Pacto: Camino del Dragón" },
+                { id: "p_6", label: "Pacto: Cazador de los Bosques" },
+                { id: "p_7", label: "Pacto: Espectro Oscuro" },
+                { id: "p_8", label: "Pacto: Siervo del Rey del Cementerio" }
             ],
             hechizos: [
-                { id: "he_0", label: "Flecha de alma", type: "magic" },
-                { id: "he_1", label: "Gran flecha de alma", type: "magic" },
-                { id: "he_2", label: "Flecha de alma pesada", type: "magic" },
-                { id: "he_3", label: "Gran flecha de alma pesada", type: "magic" },
-                { id: "he_4", label: "Flecha de alma dirigida", type: "magic" },
-                { id: "he_5", label: "Masa de alma dirigida cristal", type: "magic" },
-                { id: "he_6", label: "Lanza de alma", type: "magic" },
-                { id: "he_7", label: "Lanza de alma de cristal", type: "magic" },
-                { id: "he_8", label: "Aliento de dragón blanco", type: "magic" },
-                { id: "he_9", label: "Escudo mágico", type: "magic" },
-                { id: "he_10", label: "Gran escudo mágico", type: "magic" },
-                { id: "he_11", label: "Arma mágica", type: "magic" },
-                { id: "he_12", label: "Gran arma mágica", type: "magic" },
-                { id: "he_13", label: "Arma mágica de cristal", type: "magic" },
-                { id: "he_14", label: "Señuel acústico", type: "magic" },
-                { id: "he_15", label: "Caída controlada", type: "magic" },
-                { id: "he_16", label: "Silencio", type: "magic" },
-                { id: "he_17", label: "Luz de la tarde", type: "magic" },
-                { id: "he_18", label: "Reparar", type: "magic" },
-                { id: "he_19", label: "Invisibilidad", type: "magic" },
-                { id: "he_20", label: "Arma oculta", type: "magic" },
-                { id: "he_21", label: "Camaleón", type: "magic" },
-                { id: "he_22", label: "Remedio", type: "magic" },
-                { id: "he_23", label: "Resistir maldición", type: "magic" }
+                { id: "he_0", label: "Flecha de alma" },
+                { id: "he_1", label: "Gran flecha de alma" },
+                { id: "he_2", label: "Flecha de alma pesada" },
+                { id: "he_3", label: "Gran flecha de alma pesada" },
+                { id: "he_4", label: "Flecha de alma dirigida" },
+                { id: "he_5", label: "Masa de alma dirigida cristal" },
+                { id: "he_6", label: "Lanza de alma" },
+                { id: "he_7", label: "Lanza de alma de cristal" },
+                { id: "he_8", label: "Aliento de dragón blanco" },
+                { id: "he_9", label: "Escudo mágico" },
+                { id: "he_10", label: "Gran escudo mágico" },
+                { id: "he_11", label: "Arma mágica" },
+                { id: "he_12", label: "Gran arma mágica" },
+                { id: "he_13", label: "Arma mágica de cristal" },
+                { id: "he_14", label: "Señuel acústico" },
+                { id: "he_15", label: "Caída controlada" },
+                { id: "he_16", label: "Silencio" },
+                { id: "he_17", label: "Luz de la tarde" },
+                { id: "he_18", label: "Reparar" },
+                { id: "he_19", label: "Invisibilidad" },
+                { id: "he_20", label: "Arma oculta" },
+                { id: "he_21", label: "Camaleón" },
+                { id: "he_22", label: "Remedio" },
+                { id: "he_23", label: "Resistir maldición" }
             ],
             piromancias: [
-                { id: "pi_0", label: "Bola de fuego", type: "magic" },
-                { id: "pi_1", label: "Orbe de fuego", type: "magic" },
-                { id: "pi_2", label: "Gran bola de fuego", type: "magic" },
-                { id: "pi_3", label: "Gran bola de fuego del caos", type: "magic" },
-                { id: "pi_4", label: "Tormenta de fuego", type: "magic" },
-                { id: "pi_5", label: "Tempestad de fuego", type: "magic" },
-                { id: "pi_6", label: "Tormenta del caos", type: "magic" },
-                { id: "pi_7", label: "Combustión", type: "magic" },
-                { id: "pi_8", label: "Gran combustión", type: "magic" },
-                { id: "pi_9", label: "Azote de fuego", type: "magic" },
-                { id: "pi_10", label: "Azote de fuego del caos", type: "magic" },
-                { id: "pi_11", label: "Oleada de fuego", type: "magic" },
-                { id: "pi_12", label: "Niebla venenosa", type: "magic" },
-                { id: "pi_13", label: "Niebla tóxica", type: "magic" },
-                { id: "pi_14", label: "Azote de sudor", type: "magic" },
-                { id: "pi_15", label: "Carne férrea", type: "magic" },
-                { id: "pi_16", label: "Fuerza interior", type: "magic" },
-                { id: "pi_17", label: "Oleada de ácido", type: "magic" },
-                { id: "pi_18", label: "Gran Niebla Venenosa", type: "magic" }
+                { id: "pi_0", label: "Bola de fuego" },
+                { id: "pi_1", label: "Orbe de fuego" },
+                { id: "pi_2", label: "Gran bola de fuego" },
+                { id: "pi_3", label: "Gran bola de fuego del caos" },
+                { id: "pi_4", label: "Tormenta de fuego" },
+                { id: "pi_5", label: "Tempestad de fuego" },
+                { id: "pi_6", label: "Tormenta del caos" },
+                { id: "pi_7", label: "Combustión" },
+                { id: "pi_8", label: "Gran combustión" },
+                { id: "pi_9", label: "Azote de fuego" },
+                { id: "pi_10", label: "Azote de fuego del caos" },
+                { id: "pi_11", label: "Oleada de fuego" },
+                { id: "pi_12", label: "Niebla venenosa" },
+                { id: "pi_13", label: "Niebla tóxica" },
+                { id: "pi_14", label: "Azote de sudor" },
+                { id: "pi_15", label: "Carne férrea" },
+                { id: "pi_16", label: "Fuerza interior" },
+                { id: "pi_17", label: "Oleada de ácido" },
+                { id: "pi_18", label: "Gran Niebla Venenosa" }
             ],
             milagros: [
-                { id: "mi_0", label: "Curación", type: "magic" },
-                { id: "mi_1", label: "Curación extra", type: "magic" },
-                { id: "mi_2", label: "Gran curación", type: "magic" },
-                { id: "mi_3", label: "Gran curación extracto", type: "magic" },
-                { id: "mi_4", label: "Luz solar reconfortante", type: "magic" },
-                { id: "mi_5", label: "Luz solar generosa", type: "magic" },
-                { id: "mi_6", label: "Reabastecimiento", type: "magic" },
-                { id: "mi_7", label: "Fuerza", type: "magic" },
-                { id: "mi_8", label: "Ira de los dioses", type: "magic" },
-                { id: "mi_9", label: "Emitir fuerza", type: "magic" },
-                { id: "mi_10", label: "Barrera mágica", type: "magic" },
-                { id: "mi_11", label: "Gran barrera mágica", type: "magic" },
-                { id: "mi_12", label: "Regresar", type: "magic" },
-                { id: "mi_13", label: "Buscar orientación", type: "magic" },
-                { id: "mi_14", label: "Ayuda de curación", type: "magic" },
-                { id: "mi_15", label: "Caminar pacífico", type: "magic" },
-                { id: "mi_16", label: "Voto de silencio", type: "magic" },
-                { id: "mi_17", label: "Lanza relámpago", type: "magic" },
-                { id: "mi_18", label: "Gran lanza relámpago", type: "magic" },
-                { id: "mi_19", label: "Lanza de luz solar", type: "magic" },
-                { id: "mi_20", label: "Espada de la Luna Oscura", type: "magic" },
-                { id: "mi_21", label: "Espada de luz solar", type: "magic" },
-                { id: "mi_22", label: "Danza de espada de Nito", type: "magic" }
+                { id: "mi_0", label: "Curación" },
+                { id: "mi_1", label: "Curación extra" },
+                { id: "mi_2", label: "Gran curación" },
+                { id: "mi_3", label: "Gran curación extracto" },
+                { id: "mi_4", label: "Luz solar reconfortante" },
+                { id: "mi_5", label: "Luz solar generosa" },
+                { id: "mi_6", label: "Reabastecimiento" },
+                { id: "mi_7", label: "Fuerza" },
+                { id: "mi_8", label: "Ira de los dioses" },
+                { id: "mi_9", label: "Emitir fuerza" },
+                { id: "mi_10", label: "Barrera mágica" },
+                { id: "mi_11", label: "Gran barrera mágica" },
+                { id: "mi_12", label: "Regresar" },
+                { id: "mi_13", label: "Buscar orientación" },
+                { id: "mi_14", label: "Ayuda de curación" },
+                { id: "mi_15", label: "Caminar pacífico" },
+                { id: "mi_16", label: "Voto de silencio" },
+                { id: "mi_17", label: "Lanza relámpago" },
+                { id: "mi_18", label: "Gran lanza relámpago" },
+                { id: "mi_19", label: "Lanza de luz solar" },
+                { id: "mi_20", label: "Espada de la Luna Oscura" },
+                { id: "mi_21", label: "Espada de luz solar" },
+                { id: "mi_22", label: "Danza de espada de Nito" }
             ],
             armas: [
                 { id: "ar_0", label: "Espada de la Furia de Quelaag", tag: "boss" },
@@ -396,7 +395,7 @@
                 { id: "ar_15", label: "Gran hacha de rey dragón", tag: "tails" },
                 { id: "ar_16", label: "Espadón de dragón", tag: "tails" },
                 { id: "ar_17", label: "Daga de Priscila", tag: "tails" },
-                { id: "ar_18", label: "Espadón de luz de luna", tag: "tails" },
+                { id: "ar_18", label: "Espadón de dragón", tag: "tails" },
                 { id: "ar_19", label: "Espada de Rey del Cementerio", tag: "other" },
                 { id: "ar_20", label: "Mano Oscura (Dark Hand)", tag: "other" },
                 { id: "ar_21", label: "Espadón de caballero negro", tag: "other" },
@@ -432,7 +431,6 @@
         const appId = 'web-interactiva-b0f46';
         const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'trackerState', 'global');
         
-        // === PROCESOS DE AUTENTICACIÓN ===
         async function authenticate() {
             try {
                 await signInAnonymously(auth);
@@ -442,7 +440,6 @@
             }
         }
 
-        // === SINCRONIZACIÓN DE BASE DE DATOS ===
         function setupRealtimeSync() {
             onSnapshot(docRef, (docSnap) => {
                 if (docSnap.exists()) {
@@ -457,7 +454,6 @@
             });
         }
 
-        // Guardar cambios en Firestore
         async function saveItemState(id, checked) {
             if (!hasStreamerAccess) return;
             const updatedChecked = { ...globalCheckedItems, [id]: checked };
@@ -468,7 +464,6 @@
             }
         }
 
-        // === LOGICA DE INTERFAZ Y RENDERIZADO ===
         function renderAllLists() {
             renderGenericList('historia', 'list_historia');
             renderGenericList('pactos', 'list_pactos');
@@ -488,16 +483,13 @@
                 const itemDiv = document.createElement('div');
                 itemDiv.className = `flex items-center gap-3 p-2.5 rounded border border-souls-border bg-souls-card/40 transition-all ${isChecked ? 'checked-item' : ''}`;
                 
+                // Nota el cambio: Añadimos onChange directo al HTML para que responda sin conflictos de scopes
                 itemDiv.innerHTML = `
                     <input type="checkbox" id="${item.id}" ${isChecked ? 'checked' : ''} ${!hasStreamerAccess ? 'disabled' : ''} 
-                        class="w-4 h-4 rounded border-souls-border text-souls-gold focus:ring-0 focus:ring-offset-0 bg-souls-darkest cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
-                    <label for="${item.id}" class="text-sm select-none cursor-pointer text-gray-300 ${isChecked ? 'line-through text-souls-ash' : ''} disabled:cursor-not-allowed">${item.label}</label>
+                        class="w-4 h-4 rounded border-souls-border text-souls-gold focus:ring-0 focus:ring-offset-0 bg-souls-darkest cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                        onchange="triggerItemChange('${item.id}', this.checked)">
+                    <label for="${item.id}" class="text-sm select-none cursor-pointer text-gray-300 ${isChecked ? 'line-through text-souls-ash' : ''}">${item.label}</label>
                 `;
-
-                const checkbox = itemDiv.querySelector('input');
-                checkbox.addEventListener('change', (e) => {
-                    saveItemState(item.id, e.target.checked);
-                });
                 container.appendChild(itemDiv);
             });
         }
@@ -519,14 +511,10 @@
                 
                 itemDiv.innerHTML = `
                     <input type="checkbox" id="${item.id}" ${isChecked ? 'checked' : ''} ${!hasStreamerAccess ? 'disabled' : ''} 
-                        class="w-4 h-4 rounded border-souls-border text-souls-gold focus:ring-0 focus:ring-offset-0 bg-souls-darkest cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+                        class="w-4 h-4 rounded border-souls-border text-souls-gold focus:ring-0 focus:ring-offset-0 bg-souls-darkest cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                        onchange="triggerItemChange('${item.id}', this.checked)">
                     <label for="${item.id}" class="text-sm select-none cursor-pointer text-gray-300 ${isChecked ? 'line-through text-souls-ash' : ''}">${item.label}</label>
                 `;
-
-                const checkbox = itemDiv.querySelector('input');
-                checkbox.addEventListener('change', (e) => {
-                    saveItemState(item.id, e.target.checked);
-                });
                 container.appendChild(itemDiv);
             });
         }
@@ -578,7 +566,12 @@
             }
         }
 
-        // === CONTROL DE ROLES Y BIENVENIDA DINÁMICA ===
+        // === EXPOSICIÓN GLOBAL EXPLÍCITA AL WINDOW ===
+        // Esto asegura que "onclick" y "onchange" en los elementos HTML encuentren siempre la función.
+        window.triggerItemChange = function(id, checked) {
+            saveItemState(id, checked);
+        };
+
         window.setRole = function(role) {
             currentRole = role;
             const btnViewer = document.getElementById('btnRoleViewer');
@@ -595,7 +588,6 @@
                 document.getElementById('roleNotice').classList.remove('hidden');
                 document.getElementById('btnResetAll').classList.add('hidden');
                 
-                // Actualizar caja de bienvenida a Espectador
                 welcomeMessageBox.className = "bg-souls-darkest p-4 rounded-lg border border-l-4 border-souls-ash transition-all duration-300";
                 welcomeText.innerHTML = `Estás viendo la lista en <strong class="text-souls-gold">Modo Espectador</strong>. Los cambios en los hitos están bloqueados.`;
                 
@@ -605,7 +597,6 @@
                 btnStreamer.className = "px-3 py-1.5 rounded text-xs font-bold tracking-wider uppercase transition-all duration-300 bg-souls-gold text-souls-darkest shadow-lg";
                 configArea.classList.remove('hidden');
                 
-                // Pedir credenciales
                 welcomeMessageBox.className = "bg-souls-darkest p-4 rounded-lg border border-l-4 border-souls-fire transition-all duration-300";
                 welcomeText.innerHTML = `🛡️ Por favor, introduce tu <strong class="text-souls-fire">PIN de control</strong> abajo para activar los permisos de edición.`;
             }
@@ -616,14 +607,12 @@
             const welcomeMessageBox = document.getElementById('welcomeMessageBox');
             const welcomeText = document.getElementById('welcomeText');
 
-            // Hardcodeo simple de PIN por ejemplo, cámbialo por el tuyo si es necesario
             if (pin === "1234") { 
                 hasStreamerAccess = true;
                 document.getElementById('roleNotice').classList.add('hidden');
                 document.getElementById('btnResetAll').classList.remove('hidden');
                 document.getElementById('streamerConfigArea').classList.add('hidden');
                 
-                // Actualizar caja de bienvenida a Streamer Autorizado
                 welcomeMessageBox.className = "bg-souls-card border border-l-4 border-souls-gold p-4 rounded-lg transition-all duration-300 shadow-lg shadow-souls-gold/5";
                 welcomeText.innerHTML = `🔥 ¡Bienvenido de vuelta, Elegido de la Ceniza! <strong class="text-souls-gold">Modo Streamer activado</strong>. Tus cambios se sincronizarán en vivo con tus espectadores.`;
                 
@@ -659,7 +648,6 @@
             document.getElementById('modalSuccess')?.classList.add('hidden');
         };
 
-        // Inicializar
         authenticate();
     </script>
 </body>
