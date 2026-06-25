@@ -13,21 +13,10 @@
     
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-    <!-- Firebase -->
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-
-        // Exponer funciones globalmente para que las use el resto del código
-        window.initializeApp = initializeApp;
-        window.getAuth = getAuth;
-        window.getDatabase = getDatabase;
-        window.ref = ref;
-        window.set = set;
-        window.onValue = onValue;
-        window.signInAnonymously = signInAnonymously;
-    </script>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js"></script>
 
     <script>
         tailwind.config = {
@@ -291,11 +280,9 @@
         </div>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        // Importación correcta para conectar a la base de datos en tiempo real (Realtime Database)
-        import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+    <script>
+        // Firebase ya está cargado globalmente por los CDN scripts de arriba
+        const { initializeApp, getAuth, signInAnonymously, getDatabase, ref, onValue, set } = firebase;
 
         const trackerData = {
             historia: [
@@ -450,34 +437,63 @@
         
         async function authenticate() {
             try {
+                console.log("🔵 Iniciando autenticación Firebase...");
                 await signInAnonymously(auth);
+                console.log("✅ Autenticación exitosa");
                 setupRealtimeSync();
             } catch (err) {
-                console.error("Error de autenticación Firebase:", err);
+                console.error("❌ Error de autenticación Firebase:", err);
+                console.warn("⚠️ Continuando sin autenticación (modo offline)");
+                // Intentar conectar sin autenticación
+                setupRealtimeSync();
             }
         }
 
         function setupRealtimeSync() {
-            onValue(databaseRef, (snapshot) => {
-                if (snapshot.exists()) {
-                    globalCheckedItems = snapshot.val() || {};
-                } else {
-                    globalCheckedItems = {};
-                    set(databaseRef, {}).catch(e => console.error(e));
-                }
+            try {
+                console.log("🔄 Configurando sincronización en tiempo real...");
+                console.log("📍 Referencia de BD:", databaseRef.path);
+                
+                onValue(databaseRef, (snapshot) => {
+                    console.log("📥 Datos recibidos de Firebase:");
+                    if (snapshot.exists()) {
+                        globalCheckedItems = snapshot.val() || {};
+                        console.log("✅ Datos cargados:", globalCheckedItems);
+                    } else {
+                        console.log("⚠️ No hay datos en Firebase, inicializando...");
+                        globalCheckedItems = {};
+                        // Intentar inicializar, pero no fallar si hay error
+                        set(databaseRef, {}).catch(e => {
+                            console.warn("⚠️ No se pudo inicializar Firebase:", e);
+                        });
+                    }
+                    updateUIState();
+                }, (error) => {
+                    console.error("❌ Error en Realtime Database:", error);
+                    console.warn("⚠️ Usando datos locales como fallback");
+                    // Usar datos locales si no se puede conectar
+                    updateUIState();
+                });
+            } catch (err) {
+                console.error("❌ Error al configurar sincronización:", err);
+                console.warn("⚠️ Usando modo offline");
                 updateUIState();
-            }, (error) => {
-                console.error("Error en Realtime Database:", error);
-            });
+            }
         }
 
         async function saveItemState(id, checked) {
-            if (!hasStreamerAccess) return;
+            console.log(`💾 Guardando: ${id} = ${checked}`);
+            if (!hasStreamerAccess) {
+                console.warn("⚠️ Sin acceso de streamer, no se guarda");
+                return;
+            }
             const updatedChecked = { ...globalCheckedItems, [id]: checked };
             try {
+                console.log("📤 Enviando a Firebase:", updatedChecked);
                 await set(databaseRef, updatedChecked);
+                console.log("✅ Guardado exitosamente");
             } catch (e) {
-                console.error("Error al actualizar estado:", e);
+                console.error("❌ Error al actualizar estado:", e);
             }
         }
 
