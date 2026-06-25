@@ -140,20 +140,17 @@
 
             <div class="lg:col-span-2 bg-souls-dark border border-souls-border p-6 rounded-lg flex flex-col justify-between">
                 <div>
-                    <h3 class="font-cinzel text-xl font-bold text-souls-gold tracking-wider mb-2">Sincronización en Directo</h3>
-                    <p class="text-sm text-gray-400 leading-relaxed mb-4">
-                        ¡Bienvenido al Nexo de Control! Esta web utiliza Cloud Firestore para sincronizarse en tiempo real. Al abrir este enlace en tu OBS o compartirlo con tus espectadores, el progreso se reflejará al instante.
+                    <h3 class="font-cinzel text-xl font-bold text-souls-gold tracking-widest uppercase mb-3">
+                        ⚔️ Bienvenido al Tracker de Lordran
+                    </h3>
+                    <p class="text-sm text-gray-400 leading-relaxed mb-5">
+                        Tu compañero definitivo en el camino hacia el logro de Platino 🏆. Registra en tiempo real tu progreso derrotando jefes, descubriendo pactos ocultos, dominando hechizos, piromancias, milagros y recolectando todas las armas raras necesarias para el Honor de Caballero.
                     </p>
                     
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
-                        <div class="bg-souls-darkest p-4 rounded-lg border border-souls-border">
-                            <h4 class="text-xs font-bold uppercase tracking-wider text-souls-gold mb-1">Para tus Espectadores</h4>
-                            <p class="text-xs text-souls-ash">Comparte el link normal. Las casillas estarán deshabilitadas para que nadie altere tu lista en vivo.</p>
-                        </div>
-                        <div class="bg-souls-darkest p-4 rounded-lg border border-souls-border">
-                            <h4 class="text-xs font-bold uppercase tracking-wider text-souls-fire mb-1">Tu Control de Streamer</h4>
-                            <p class="text-xs text-souls-ash">Activa el "Modo Streamer" a la derecha, define tu PIN secreto y podrás marcar los hitos manualmente si lo requieres.</p>
-                        </div>
+                    <div id="welcomeMessageBox" class="bg-souls-darkest p-4 rounded-lg border border-l-4 border-souls-ash transition-all duration-300">
+                        <p id="welcomeText" class="text-xs text-souls-ash font-medium">
+                            Estás viendo la lista en <strong class="text-souls-gold">Modo Espectador</strong>. Los cambios en los hitos están bloqueados.
+                        </p>
                     </div>
                 </div>
 
@@ -510,11 +507,11 @@
             if (!container) return;
             container.innerHTML = '';
 
-            const searchTxt = document.getElementById('searchWeapons')?.value.toLowerCase() || '';
+            const searchVal = document.getElementById('searchWeapons')?.value.toLowerCase() || '';
 
             trackerData.armas.forEach(item => {
                 if (weaponFilter !== 'all' && item.tag !== weaponFilter) return;
-                if (searchTxt && !item.label.toLowerCase().includes(searchTxt)) return;
+                if (searchVal && !item.label.toLowerCase().includes(searchVal)) return;
 
                 const isChecked = !!globalCheckedItems[item.id];
                 const itemDiv = document.createElement('div');
@@ -536,82 +533,103 @@
 
         function updateUIState() {
             renderAllLists();
-            
-            // Calcular progreso
-            let total = 0;
-            let completed = 0;
-            
+            calculateAndProgressUI();
+        }
+
+        function calculateAndProgressUI() {
+            let totalItems = 0;
+            let checkedItems = 0;
+
             Object.keys(trackerData).forEach(key => {
-                let catCompleted = 0;
-                trackerData[key].forEach(item => {
-                    total++;
+                const sublist = trackerData[key];
+                let subTotal = sublist.length;
+                let subChecked = 0;
+
+                sublist.forEach(item => {
                     if (globalCheckedItems[item.id]) {
-                        completed++;
-                        catCompleted++;
+                        subChecked++;
+                        checkedItems++;
                     }
+                    totalItems++;
                 });
-                
+
                 const badge = document.getElementById(`badgeProg_${key}`);
-                if (badge) badge.innerText = `${catCompleted}/${trackerData[key].length}`;
+                if (badge) badge.innerText = `${subChecked}/${subTotal}`;
             });
 
-            const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
+            const percent = totalItems > 0 ? Math.round((checkedItems / totalItems) * 100) : 0;
             
             const txtPercent = document.getElementById('txtProgressPercent');
             const barProgress = document.getElementById('barProgress');
             const txtFraction = document.getElementById('txtProgressFraction');
-            
+            const bonfireGlow = document.getElementById('bonfireGlow');
+
             if (txtPercent) txtPercent.innerText = `${percent}%`;
             if (barProgress) barProgress.style.width = `${percent}%`;
-            if (txtFraction) txtFraction.innerText = `${completed} de ${total} hitos completados`;
+            if (txtFraction) txtFraction.innerText = `${checkedItems} de ${totalItems} hitos completados`;
+            
+            if (bonfireGlow) {
+                bonfireGlow.style.transform = `scale(${1 + (percent / 100) * 0.5})`;
+                bonfireGlow.style.opacity = `${0.1 + (percent / 100) * 0.4}`;
+            }
 
-            // Mostrar modal si llegó al 100%
-            if (percent === 100 && completed > 0) {
+            if (percent === 100) {
                 document.getElementById('modalSuccess')?.classList.remove('hidden');
             }
         }
 
-        // === FUNCIONES GLOBALES CONECTADAS AL HTML ===
+        // === CONTROL DE ROLES Y BIENVENIDA DINÁMICA ===
         window.setRole = function(role) {
             currentRole = role;
             const btnViewer = document.getElementById('btnRoleViewer');
             const btnStreamer = document.getElementById('btnRoleStreamer');
             const configArea = document.getElementById('streamerConfigArea');
-            const roleNotice = document.getElementById('roleNotice');
-            const btnReset = document.getElementById('btnResetAll');
+            const welcomeMessageBox = document.getElementById('welcomeMessageBox');
+            const welcomeText = document.getElementById('welcomeText');
 
-            if (role === 'streamer') {
-                btnStreamer.className = "px-3 py-1.5 rounded text-xs font-bold tracking-wider uppercase transition-all duration-300 bg-souls-fire text-white shadow-lg shadow-souls-fire/20";
-                btnViewer.className = "px-3 py-1.5 rounded text-xs font-bold tracking-wider uppercase transition-all duration-300 bg-souls-border text-souls-ash";
-                configArea.classList.remove('hidden');
-            } else {
+            if (role === 'viewer') {
+                hasStreamerAccess = false;
                 btnViewer.className = "px-3 py-1.5 rounded text-xs font-bold tracking-wider uppercase transition-all duration-300 bg-souls-gold text-souls-darkest shadow-lg";
                 btnStreamer.className = "px-3 py-1.5 rounded text-xs font-bold tracking-wider uppercase transition-all duration-300 bg-souls-border text-souls-ash";
                 configArea.classList.add('hidden');
-                hasStreamerAccess = false;
-                roleNotice.innerText = "Viendo en modo de espectador. Los cambios están bloqueados.";
-                roleNotice.className = "text-xs text-souls-ash italic";
-                btnReset.classList.add('hidden');
+                document.getElementById('roleNotice').classList.remove('hidden');
+                document.getElementById('btnResetAll').classList.add('hidden');
+                
+                // Actualizar caja de bienvenida a Espectador
+                welcomeMessageBox.className = "bg-souls-darkest p-4 rounded-lg border border-l-4 border-souls-ash transition-all duration-300";
+                welcomeText.innerHTML = `Estás viendo la lista en <strong class="text-souls-gold">Modo Espectador</strong>. Los cambios en los hitos están bloqueados.`;
+                
                 updateUIState();
+            } else {
+                btnViewer.className = "px-3 py-1.5 rounded text-xs font-bold tracking-wider uppercase transition-all duration-300 bg-souls-border text-souls-ash";
+                btnStreamer.className = "px-3 py-1.5 rounded text-xs font-bold tracking-wider uppercase transition-all duration-300 bg-souls-gold text-souls-darkest shadow-lg";
+                configArea.classList.remove('hidden');
+                
+                // Pedir credenciales
+                welcomeMessageBox.className = "bg-souls-darkest p-4 rounded-lg border border-l-4 border-souls-fire transition-all duration-300";
+                welcomeText.innerHTML = `🛡️ Por favor, introduce tu <strong class="text-souls-fire">PIN de control</strong> abajo para activar los permisos de edición.`;
             }
         };
 
         window.verifyAndAuthStreamer = function() {
-            const pinInput = document.getElementById('inputPIN');
-            const pin = pinInput ? pinInput.value : '';
-            const roleNotice = document.getElementById('roleNotice');
-            const btnReset = document.getElementById('btnResetAll');
+            const pin = document.getElementById('inputPIN').value;
+            const welcomeMessageBox = document.getElementById('welcomeMessageBox');
+            const welcomeText = document.getElementById('welcomeText');
 
-            // PIN CONFIGURADO
-            if (pin === '26048436') { 
+            // Hardcodeo simple de PIN por ejemplo, cámbialo por el tuyo si es necesario
+            if (pin === "1234") { 
                 hasStreamerAccess = true;
-                roleNotice.innerText = "¡Acceso de Streamer Concedido! Puedes editar la lista.";
-                roleNotice.className = "text-xs text-emerald-400 font-bold uppercase tracking-wider";
-                btnReset.classList.remove('hidden');
-                if(pinInput) pinInput.value = '';
+                document.getElementById('roleNotice').classList.add('hidden');
+                document.getElementById('btnResetAll').classList.remove('hidden');
+                document.getElementById('streamerConfigArea').classList.add('hidden');
+                
+                // Actualizar caja de bienvenida a Streamer Autorizado
+                welcomeMessageBox.className = "bg-souls-card border border-l-4 border-souls-gold p-4 rounded-lg transition-all duration-300 shadow-lg shadow-souls-gold/5";
+                welcomeText.innerHTML = `🔥 ¡Bienvenido de vuelta, Elegido de la Ceniza! <strong class="text-souls-gold">Modo Streamer activado</strong>. Tus cambios se sincronizarán en vivo con tus espectadores.`;
+                
                 updateUIState();
             } else {
-                alert("PIN incorrecto. El acceso ha sido denegado.");
+                alert("PIN incorrecto. El fuego rechaza a los huecos.");
             }
         };
 
@@ -630,10 +648,9 @@
         };
 
         window.confirmResetAll = function() {
-            if (!hasStreamerAccess) return;
-            if (confirm("¿Seguro que deseas borrar TODO el progreso de la transmisión? Esta acción no se puede deshacer.")) {
+            if (confirm("¿Seguro que deseas restaurar toda la base de datos a cero? Esta acción no se puede deshacer.")) {
                 setDoc(docRef, { checked: {} })
-                    .then(() => alert("Hoguera reiniciada. Todos los hitos volvieron a 0."))
+                    .then(() => alert("El mundo ha sido restaurado al Año Cero."))
                     .catch(e => console.error(e));
             }
         };
@@ -642,7 +659,7 @@
             document.getElementById('modalSuccess')?.classList.add('hidden');
         };
 
-        // Iniciar aplicación
+        // Inicializar
         authenticate();
     </script>
 </body>
