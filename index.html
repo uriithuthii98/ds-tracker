@@ -183,7 +183,7 @@
             <div class="lg:col-span-4 flex flex-col gap-6">
                 <section class="bg-souls-dark border border-souls-border p-6 rounded-lg">
                     <div class="flex justify-between items-center mb-4 border-b border-souls-border pb-2">
-                        <h3 class="font-cinzel text-lg font-bold text-souls-gold tracking-widest uppercase">Historia y Jefes</h3>
+                        <h3 class="font-cinzel text-lg font-bold text-souls-gold tracking-widest uppercase">🔔 Historia</h3>
                         <span id="badgeProg_historia" class="text-xs font-bold text-souls-ash">0/10</span>
                     </div>
                     <div class="flex flex-col gap-2.5" id="list_historia"></div>
@@ -191,20 +191,29 @@
 
                 <section class="bg-souls-dark border border-souls-border p-6 rounded-lg">
                     <div class="flex justify-between items-center mb-4 border-b border-souls-border pb-2">
-                        <h3 class="font-cinzel text-lg font-bold text-souls-gold tracking-widest uppercase">Pactos</h3>
-                        <span id="badgeProg_pactos" class="text-xs font-bold text-souls-ash">0/9</span>
+                        <h3 class="font-cinzel text-lg font-bold text-souls-gold tracking-widest uppercase">💀 Jefes Opcionales</h3>
+                        <span id="badgeProg_jefes_opcionales" class="text-xs font-bold text-souls-ash">0/6</span>
                     </div>
-                    <p class="text-xs text-souls-ash mb-3 italic">Basta con unirse al menos una vez para registrar el hito del logro.</p>
-                    <div class="flex flex-col gap-2.5" id="list_pactos"></div>
+                    <p class="text-xs text-souls-ash mb-3 italic">Cada jefe da su propio logro.</p>
+                    <div class="flex flex-col gap-2.5" id="list_jefes_opcionales"></div>
                 </section>
 
                 <section class="bg-souls-dark border border-souls-border p-6 rounded-lg">
                     <div class="flex justify-between items-center mb-4 border-b border-souls-border pb-2">
-                        <h3 class="font-cinzel text-lg font-bold text-souls-gold tracking-widest uppercase">Otros Logros</h3>
-                        <span id="badgeProg_otros_logros" class="text-xs font-bold text-souls-ash">0/17</span>
+                        <h3 class="font-cinzel text-lg font-bold text-souls-gold tracking-widest uppercase">⚒️ Mejoras de Arma</h3>
+                        <span id="badgeProg_mejoras" class="text-xs font-bold text-souls-ash">0/10</span>
                     </div>
-                    <p class="text-xs text-souls-ash mb-3 italic">Mejoras de armas, objetos clave y jefes opcionales.</p>
-                    <div class="flex flex-col gap-2.5 max-h-96 overflow-y-auto pr-2" id="list_otros_logros"></div>
+                    <p class="text-xs text-souls-ash mb-3 italic">Cada tipo de refuerzo da un logro independiente.</p>
+                    <div class="flex flex-col gap-2.5" id="list_mejoras"></div>
+                </section>
+
+                <section class="bg-souls-dark border border-souls-border p-6 rounded-lg">
+                    <div class="flex justify-between items-center mb-4 border-b border-souls-border pb-2">
+                        <h3 class="font-cinzel text-lg font-bold text-souls-gold tracking-widest uppercase">🤝 Pactos</h3>
+                        <span id="badgeProg_pactos" class="text-xs font-bold text-souls-ash">0/9</span>
+                    </div>
+                    <p class="text-xs text-souls-ash mb-3 italic">Basta con unirse al menos una vez.</p>
+                    <div class="flex flex-col gap-2.5" id="list_pactos"></div>
                 </section>
             </div>
 
@@ -254,9 +263,9 @@
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4 border-b border-souls-border pb-3">
                         <div>
                             <h3 class="font-cinzel text-xl font-bold text-souls-gold tracking-widest uppercase">Honor de Caballero</h3>
-                            <p class="text-xs text-souls-ash mt-0.5 font-semibold">TODAS LAS ARMAS RARAS (36 EN TOTAL)</p>
+                            <p class="text-xs text-souls-ash mt-0.5 font-semibold">TODAS LAS ARMAS RARAS (50 EN TOTAL)</p>
                         </div>
-                        <span id="badgeProg_armas" class="text-sm font-bold text-souls-gold">0/36</span>
+                        <span id="badgeProg_armas" class="text-sm font-bold text-souls-gold">0/50</span>
                     </div>
 
                     <div class="flex flex-col md:flex-row gap-3 mb-4">
@@ -268,6 +277,7 @@
                             <button class="bg-souls-card hover:bg-souls-card/80 border border-souls-border text-xs px-3 py-1.5 rounded text-souls-ash font-bold uppercase tracking-wider transition-all" onclick="window.setWeaponFilter('all')">Todas</button>
                             <button class="bg-souls-card hover:bg-souls-card/80 border border-souls-border text-xs px-3 py-1.5 rounded text-souls-ash font-bold uppercase tracking-wider transition-all" onclick="window.setWeaponFilter('boss')">Jefes</button>
                             <button class="bg-souls-card hover:bg-souls-card/80 border border-souls-border text-xs px-3 py-1.5 rounded text-souls-ash font-bold uppercase tracking-wider transition-all" onclick="window.setWeaponFilter('tails')">Colas</button>
+                            <button class="bg-red-950/40 hover:bg-red-950/60 border border-red-900/50 text-xs px-3 py-1.5 rounded text-red-400 font-bold uppercase tracking-wider transition-all" onclick="window.setWeaponFilter('farm')">⚔️ Farmeo</button>
                         </div>
                     </div>
 
@@ -414,157 +424,209 @@
         // ========================================
 
         const trackerData = {
+
+            // ══════════════════════════════════════════════
+            // HISTORIA (10 logros)
+            // ══════════════════════════════════════════════
             historia: [
-                { id: "h_0", label: "Enlazar el Fuego (Final A)" },
-                { id: "h_1", label: "Señor Oscuro (Final B)" },
-                { id: "h_2", label: "Gárgola de la Campana (Tocar Iglesia)" },
-                { id: "h_3", label: "Bruja de Quelaag (Tocar Dominio)" },
-                { id: "h_4", label: "Superar la Fortaleza de Sen" },
-                { id: "h_5", label: "Conseguir la Vasija del Señor" },
-                { id: "h_6", label: "Derrotar a Seath el Descamado" },
-                { id: "h_7", label: "Derrotar a los Cuatro Reyes" },
-                { id: "h_8", label: "Derrotar a Nito el Rey del Cementerio" },
-                { id: "h_9", label: "Derrotar al Lecho del Caos" }
+                { id: "h_0", label: "🔔 Tocar campana — Iglesia de la Parroquia No-Muerta" },
+                { id: "h_1", label: "🔔 Tocar campana — Dominio de Quelaag" },
+                { id: "h_2", label: "🏰 Llegar a Anor Londo" },
+                { id: "h_3", label: "⚱️ Adquirir la Vasija del Señor" },
+                { id: "h_4", label: "🔥 Enlazar el Fuego (Final A)" },
+                { id: "h_5", label: "👑 Señor Oscuro (Final B)" },
+                { id: "h_6", label: "🐺 Arte de caminar por el Abismo (matar a Sif)" },
+                { id: "h_7", label: "🏕️ Avivar hoguera" },
+                { id: "h_8", label: "🧪 Rito del Avivado" },
+                { id: "h_9", label: "🍾 Adquirir Frasco de Estus" }
             ],
+
+            // ══════════════════════════════════════════════
+            // JEFES OPCIONALES (6 logros)
+            // ══════════════════════════════════════════════
+            jefes_opcionales: [
+                { id: "jo_0", label: "🔱 Derrotar a los Cuatro Reyes" },
+                { id: "jo_1", label: "🌿 Derrotar a Nito (Rey del Cementerio)" },
+                { id: "jo_2", label: "🌋 Derrotar al Lecho del Caos" },
+                { id: "jo_3", label: "🐉 Derrotar a Seath el Descamado" },
+                { id: "jo_4", label: "🌙 Derrotar a Gwyndolin (Dios Luna Oscura)" },
+                { id: "jo_5", label: "❄️ Derrotar a Priscilla la Mestiza" }
+            ],
+
+            // ══════════════════════════════════════════════
+            // MEJORAS DE ARMAS (10 logros — uno por tipo)
+            // ══════════════════════════════════════════════
+            mejoras: [
+                { id: "up_0", label: "⚒️ Arma Normal +15 (La Mejor Mejora)" },
+                { id: "up_1", label: "💎 Arma de Cristal +5" },
+                { id: "up_2", label: "⚡ Arma de Relámpago +5" },
+                { id: "up_3", label: "🪨 Arma Bruta +5" },
+                { id: "up_4", label: "🔮 Arma Mágica +10" },
+                { id: "up_5", label: "✨ Arma Encantada +5" },
+                { id: "up_6", label: "✝️ Arma Divina +10" },
+                { id: "up_7", label: "🌑 Arma Oculta +5" },
+                { id: "up_8", label: "🔥 Arma de Fuego +10" },
+                { id: "up_9", label: "☄️ Arma del Caos +5" }
+            ],
+
+            // ══════════════════════════════════════════════
+            // PACTOS (9 logros)
+            // ══════════════════════════════════════════════
             pactos: [
-                { id: "p_0", label: "Pacto: Vía Blanca" },
-                { id: "p_1", label: "Pacto: Guardia de la Princesa" },
-                { id: "p_2", label: "Pacto: Espada de la Luna Oscura" },
-                { id: "p_3", label: "Pacto: Guerrero de la Luz Solar" },
-                { id: "p_4", label: "Pacto: Siervo del Caos" },
-                { id: "p_5", label: "Pacto: Camino del Dragón" },
-                { id: "p_6", label: "Pacto: Cazador de los Bosques" },
-                { id: "p_7", label: "Pacto: Espectro Oscuro" },
-                { id: "p_8", label: "Pacto: Forestas Humanas" }
+                { id: "p_0", label: "☀️ Guerrero de la Luz Solar (Solaire)" },
+                { id: "p_1", label: "🌲 Cazador de los Bosques (Álvina)" },
+                { id: "p_2", label: "☠️ Siervo del Señor Gravelord (Nito)" },
+                { id: "p_3", label: "🌊 Vía Blanca (Oswald de Carim)" },
+                { id: "p_4", label: "🌙 Espada de la Luna Oscura (Gwyndolin)" },
+                { id: "p_5", label: "🐉 Camino del Dragón (Dragón en el Puente)" },
+                { id: "p_6", label: "🌑 Espectro Oscuro (Darkstalker Kaathe)" },
+                { id: "p_7", label: "🔥 Siervo del Caos (Portero de la Bruja)" },
+                { id: "p_8", label: "👸 Guardia de la Princesa (Gwynevere)" }
             ],
-            otros_logros: [
-                { id: "ol_0", label: "Llegar a Lordran" },
-                { id: "ol_1", label: "Adquirir Frasco de Estus" },
-                { id: "ol_2", label: "Avivar hoguera" },
-                { id: "ol_3", label: "Rito del avivado" },
-                { id: "ol_4", label: "Arte de caminar por el Abismo" },
-                { id: "ol_5", label: "Derrotar a Gwyndolin" },
-                { id: "ol_6", label: "Derrotar a Priscilla la Mestiza" },
-                { id: "ol_7", label: "Mejor arma (Normal +15)" },
-                { id: "ol_8", label: "Arma de cristal (+5)" },
-                { id: "ol_9", label: "Arma relámpago (+5)" },
-                { id: "ol_10", label: "Arma básica (+5)" },
-                { id: "ol_11", label: "Arma mágica (+10)" },
-                { id: "ol_12", label: "Arma encantada (+5)" },
-                { id: "ol_13", label: "Arma divina (+10)" },
-                { id: "ol_14", label: "Arma oculta (+5)" },
-                { id: "ol_15", label: "Arma de fuego (+10)" },
-                { id: "ol_16", label: "Arma del caos (+5)" }
-            ],
+
+            // ══════════════════════════════════════════════
+            // HECHIZOS / SORCERIES (24 — logro "Sabiduría del Sabio")
+            // ══════════════════════════════════════════════
             hechizos: [
-                { id: "hc_0", label: "Flecha del alma" },
-                { id: "hc_1", label: "Gran flecha del alma" },
-                { id: "hc_2", label: "Flecha del alma pesada" },
-                { id: "hc_3", label: "Rayo de cristal del alma" },
-                { id: "hc_4", label: "Bola de fuego del alma" },
-                { id: "hc_5", label: "Espada del alma" },
-                { id: "hc_6", label: "Lanza del alma" },
-                { id: "hc_7", label: "Bola de fuego" },
-                { id: "hc_8", label: "Bola de fuego grande" },
-                { id: "hc_9", label: "Bola de fuego negra" },
-                { id: "hc_10", label: "Rayo" },
-                { id: "hc_11", label: "Rayo grande" },
-                { id: "hc_12", label: "Rayo de cristal" },
-                { id: "hc_13", label: "Rayo de cristal grande" },
-                { id: "hc_14", label: "Rayo blanco" },
-                { id: "hc_15", label: "Rayo de la diosa" },
-                { id: "hc_16", label: "Rayo de la serpiente" },
-                { id: "hc_17", label: "Tormenta de truenos" },
-                { id: "hc_18", label: "Tormenta de cristal" },
-                { id: "hc_19", label: "Escudo de la magia" },
-                { id: "hc_20", label: "Escudo de resistencia mágica" },
-                { id: "hc_21", label: "Escudo de silicio" },
-                { id: "hc_22", label: "Velo de la aldea" },
-                { id: "hc_23", label: "Rayo de Dios" }
+                { id: "hc_0",  label: "Flecha del Alma" },
+                { id: "hc_1",  label: "Gran Flecha del Alma" },
+                { id: "hc_2",  label: "Flecha del Alma Pesada" },
+                { id: "hc_3",  label: "Gran Flecha del Alma Pesada" },
+                { id: "hc_4",  label: "Lanza del Alma" },
+                { id: "hc_5",  label: "Lanza del Alma de Cristal" },
+                { id: "hc_6",  label: "Mandoble del Alma" },
+                { id: "hc_7",  label: "Arma Mágica" },
+                { id: "hc_8",  label: "Escudo Mágico" },
+                { id: "hc_9",  label: "Escudo Mágico Fuerte" },
+                { id: "hc_10", label: "Enjambre de Almas" },
+                { id: "hc_11", label: "Enjambre de Almas de Cristal" },
+                { id: "hc_12", label: "Arma Mágica de Cristal" },
+                { id: "hc_13", label: "Señuelo Acústico" },
+                { id: "hc_14", label: "Control de Caída" },
+                { id: "hc_15", label: "Arma Oculta" },
+                { id: "hc_16", label: "Cuerpo Oculto" },
+                { id: "hc_17", label: "Emitir Luz" },
+                { id: "hc_18", label: "Silencio" },
+                { id: "hc_19", label: "Perseguidores" },
+                { id: "hc_20", label: "Camaleón" },
+                { id: "hc_21", label: "Aliento del Dragón Blanco" },
+                { id: "hc_22", label: "Reparar" },
+                { id: "hc_23", label: "Remedio" }
             ],
+
+            // ══════════════════════════════════════════════
+            // PIROMANCIAS (19 — logro "Vínculo del Piromante")
+            // ══════════════════════════════════════════════
             piromancias: [
-                { id: "py_0", label: "Bola de fuego" },
-                { id: "py_1", label: "Bola de fuego mejorada" },
-                { id: "py_2", label: "Orbe de fuego" },
-                { id: "py_3", label: "Fuego rápido" },
-                { id: "py_4", label: "Fuego de piso" },
-                { id: "py_5", label: "Fuego de templo" },
-                { id: "py_6", label: "Fuego del caos" },
-                { id: "py_7", label: "Fuego de polvorín" },
-                { id: "py_8", label: "Combustión" },
-                { id: "py_9", label: "Combustión grande" },
-                { id: "py_10", label: "Combustión negra" },
-                { id: "py_11", label: "Maldición del fuego" },
-                { id: "py_12", label: "Fuego de hierba" },
-                { id: "py_13", label: "Resistencia al fuego" },
-                { id: "py_14", label: "Escudo de fuego" },
-                { id: "py_15", label: "Fuego espiritual" },
-                { id: "py_16", label: "Protección del fuego" },
-                { id: "py_17", label: "Danza de fuego" },
-                { id: "py_18", label: "Fuego del alma negra" }
+                { id: "py_0",  label: "Bola de Fuego" },
+                { id: "py_1",  label: "Orbe de Fuego" },
+                { id: "py_2",  label: "Gran Bola de Fuego" },
+                { id: "py_3",  label: "Gran Bola de Fuego del Caos" },
+                { id: "py_4",  label: "Oleada de Fuego" },
+                { id: "py_5",  label: "Tormenta de Fuego" },
+                { id: "py_6",  label: "Látigo de Fuego" },
+                { id: "py_7",  label: "Látigo de Fuego del Caos" },
+                { id: "py_8",  label: "Combustión" },
+                { id: "py_9",  label: "Gran Combustión" },
+                { id: "py_10", label: "Sudor Reluciente" },
+                { id: "py_11", label: "Niebla Tóxica" },
+                { id: "py_12", label: "Niebla Venenosa" },
+                { id: "py_13", label: "Carne de Hierro" },
+                { id: "py_14", label: "Poder Interior" },
+                { id: "py_15", label: "Rapport No-Muerto" },
+                { id: "py_16", label: "Llama Negra" },
+                { id: "py_17", label: "Oleada Ácida" },
+                { id: "py_18", label: "Tormenta del Caos" }
             ],
+
+            // ══════════════════════════════════════════════
+            // MILAGROS (23 — logro "Oración de una Doncella")
+            // ══════════════════════════════════════════════
             milagros: [
-                { id: "ml_0", label: "Curación" },
-                { id: "ml_1", label: "Curación extra" },
-                { id: "ml_2", label: "Curación del alma" },
-                { id: "ml_3", label: "Armadura sagrada" },
-                { id: "ml_4", label: "Escudo de resistencia" },
-                { id: "ml_5", label: "Escudo de resina" },
-                { id: "ml_6", label: "Bendición" },
-                { id: "ml_7", label: "Santuario" },
-                { id: "ml_8", label: "Veneno del vendaval" },
-                { id: "ml_9", label: "Protección del vendaval" },
-                { id: "ml_10", label: "Escudo de Astora" },
-                { id: "ml_11", label: "Lanza de Astora" },
-                { id: "ml_12", label: "Rayo de Dios" },
-                { id: "ml_13", label: "Rayo de la diosa" },
-                { id: "ml_14", label: "Rayo blanco" },
-                { id: "ml_15", label: "Tormenta de truenos" },
-                { id: "ml_16", label: "Tormenta de cristal" },
-                { id: "ml_17", label: "Rayo de la serpiente" },
-                { id: "ml_18", label: "Bola de fuego del alma" },
-                { id: "ml_19", label: "Rayo de cristal" },
-                { id: "ml_20", label: "Rayo de cristal grande" },
-                { id: "ml_21", label: "Resurrección" },
-                { id: "ml_22", label: "Resurrección grande" }
+                { id: "ml_0",  label: "Curar" },
+                { id: "ml_1",  label: "Extracto de Gran Curación" },
+                { id: "ml_2",  label: "Gran Curación" },
+                { id: "ml_3",  label: "Luz Solar Calmante" },
+                { id: "ml_4",  label: "Reposición" },
+                { id: "ml_5",  label: "Luz Solar Abundante" },
+                { id: "ml_6",  label: "Regreso al Hogar" },
+                { id: "ml_7",  label: "Fuerza" },
+                { id: "ml_8",  label: "Ira de los Dioses" },
+                { id: "ml_9",  label: "Emitir Fuerza" },
+                { id: "ml_10", label: "Lanza de Relámpago" },
+                { id: "ml_11", label: "Gran Lanza de Relámpago" },
+                { id: "ml_12", label: "Lanza de la Luz Solar" },
+                { id: "ml_13", label: "Danza de la Espada del Gravelord" },
+                { id: "ml_14", label: "Danza del Gran Mandoble del Gravelord" },
+                { id: "ml_15", label: "Justicia Kármica" },
+                { id: "ml_16", label: "Hoja de la Luna Oscura" },
+                { id: "ml_17", label: "Barrera Mágica" },
+                { id: "ml_18", label: "Gran Barrera Mágica" },
+                { id: "ml_19", label: "Paseo Tranquilo de Paz" },
+                { id: "ml_20", label: "Voto de Silencio" },
+                { id: "ml_21", label: "Buscar Orientación" },
+                { id: "ml_22", label: "Escapar de la Muerte" }
             ],
+
+            // ══════════════════════════════════════════════
+            // HONOR DE CABALLERO — 50 armas raras
+            // ══════════════════════════════════════════════
             armas: [
-                { id: "ar_0", label: "Espadón de Artorias (Maldito)", tag: "boss" },
-                { id: "ar_1", label: "Espadón de Artorias (Verdadero)", tag: "boss" },
-                { id: "ar_2", label: "Espadón de Artorias (Abismo)", tag: "boss" },
-                { id: "ar_3", label: "Gran escudo de Artorias", tag: "boss" },
-                { id: "ar_4", label: "Escudo de Artorias", tag: "boss" },
-                { id: "ar_5", label: "Lanza de matadragones", tag: "boss" },
-                { id: "ar_6", label: "Martillo de Smough", tag: "boss" },
-                { id: "ar_7", label: "Gran señor espadón", tag: "boss" },
-                { id: "ar_8", label: "Cuerno de mariposa lunar", tag: "boss" },
-                { id: "ar_9", label: "Espada de la furia de Quelaag", tag: "boss" },
-                { id: "ar_10", label: "Espadón del caos", tag: "boss" },
-                { id: "ar_11", label: "Escudo de cristal", tag: "boss" },
-                { id: "ar_12", label: "Daga de Priscila", tag: "boss" },
-                { id: "ar_13", label: "Arco de la Luna Oscura", tag: "boss" },
-                { id: "ar_14", label: "Catalizador de latón", tag: "boss" },
-                { id: "ar_15", label: "Hacha de gárgola", tag: "tails" },
-                { id: "ar_16", label: "Espada recta de dragón", tag: "tails" },
-                { id: "ar_17", label: "Gran hacha de rey dragón", tag: "tails" },
-                { id: "ar_18", label: "Espadón de dragón", tag: "tails" },
-                { id: "ar_19", label: "Espada de Rey del Cementerio", tag: "other" },
-                { id: "ar_20", label: "Mano Oscura", tag: "other" },
-                { id: "ar_21", label: "Espadón de caballero negro", tag: "other" },
-                { id: "ar_22", label: "Gran hacha de caballero negro", tag: "other" },
-                { id: "ar_23", label: "Alabarda de caballero negro", tag: "other" },
-                { id: "ar_24", label: "Espada de caballero negro", tag: "other" },
-                { id: "ar_25", label: "Escudo de caballero negro", tag: "other" },
-                { id: "ar_26", label: "Tridente de canalizador", tag: "other" },
-                { id: "ar_27", label: "Gran escudo de Havel", tag: "other" },
-                { id: "ar_28", label: "Diente de dragón", tag: "other" },
-                { id: "ar_29", label: "Escudo de sangre", tag: "other" },
-                { id: "ar_30", label: "Escudo de cresta", tag: "other" },
-                { id: "ar_31", label: "Escudo de cresta de dragón", tag: "other" },
-                { id: "ar_32", label: "Escudo de cresta de hierba", tag: "other" },
-                { id: "ar_33", label: "Velka, estoque", tag: "other" },
-                { id: "ar_34", label: "Espadón de Astora", tag: "other" },
-                { id: "ar_35", label: "Daga de paradas", tag: "other" }
+                // ── ALMAS DE JEFES (22 armas) ─────────────────────────────
+                { id: "ar_0",  label: "Gran Espada de Artorias (Maldita) — Alma de Sif ×1",       tag: "boss" },
+                { id: "ar_1",  label: "Gran Espada de Artorias (Verdadera) — Alma de Sif ×2",     tag: "boss" },
+                { id: "ar_2",  label: "Gran Escudo de Artorias — Alma de Sif ×3",                 tag: "boss" },
+                { id: "ar_3",  label: "Lanza Matadragones — Alma de Ornstein",                    tag: "boss" },
+                { id: "ar_4",  label: "Martillo de Smough — Alma de Smough",                      tag: "boss" },
+                { id: "ar_5",  label: "Cuerno de Mariposa Lunar — Alma de Mariposa Lunar ×1",     tag: "boss" },
+                { id: "ar_6",  label: "Escudo de Anillo de Cristal — Alma de Mariposa Lunar ×2",  tag: "boss" },
+                { id: "ar_7",  label: "Espadafuria de Quelaag — Alma de Quelaag ×1",              tag: "boss" },
+                { id: "ar_8",  label: "Hoja del Caos — Alma de Quelaag ×2",                       tag: "boss" },
+                { id: "ar_9",  label: "Hacha del Gólem — Alma del Gólem de Hierro ×1",            tag: "boss" },
+                { id: "ar_10", label: "Puño de Hueso de Dragón — Alma del Gólem de Hierro ×2",    tag: "boss" },
+                { id: "ar_11", label: "Gran Espada del Gran Señor — Alma de Gwyn ×1",             tag: "boss" },
+                { id: "ar_12", label: "Espada Recta de la Luz Solar — Alma de Gwyn ×2",           tag: "boss" },
+                { id: "ar_13", label: "Gran Espada Luz de Luna — Alma de Seath ×1",               tag: "boss" },
+                { id: "ar_14", label: "Catalizador de Cristal de Hojalata — Alma de Seath ×2",    tag: "boss" },
+                { id: "ar_15", label: "Arco de la Luna Oscura — Alma de Gwyndolin ×1",            tag: "boss" },
+                { id: "ar_16", label: "Catalizador de Hojalata Luna Oscura — Alma de Gwyndolin ×2", tag: "boss" },
+                { id: "ar_17", label: "Guadaña Cazavidas — Alma de Priscilla",                    tag: "boss" },
+                { id: "ar_18", label: "Hacha de Gárgola — Alma de la Gárgola de la Campana ×1",  tag: "boss" },
+                { id: "ar_19", label: "Campana de la Gárgola (escudo) — Alma de la Gárgola ×2",  tag: "boss" },
+                { id: "ar_20", label: "Espada del Demonio — Alma del Demonio Capra",              tag: "boss" },
+                { id: "ar_21", label: "Catalizador de Izalith — Alma del Demonio del Caos",       tag: "boss" },
+
+                // ── COLAS CORTADAS (6 armas) ───────────────────────────────
+                { id: "ar_22", label: "Espada del Dragón (Hellkite) — Cortar cola del Wyvern",    tag: "tails" },
+                { id: "ar_23", label: "Gran Hacha del Rey Dragón — Cortar cola del Gaping Dragon", tag: "tails" },
+                { id: "ar_24", label: "Hacha de Cola de Gárgola — Cortar cola de la Gárgola",     tag: "tails" },
+                { id: "ar_25", label: "Gran Espada Luz de Luna — Cortar cola de Seath",            tag: "tails" },
+                { id: "ar_26", label: "Daga de Priscilla — Cortar cola de Priscilla",              tag: "tails" },
+                { id: "ar_27", label: "Puño de Hueso de Dragón — Cortar cola del Dragón Eterno",  tag: "tails" },
+
+                // ── FARMEO / DROPS (22 armas) ──────────────────────────────
+                { id: "ar_28", label: "Espada del Caballero Negro — Drop Caballero Negro (espada)",         tag: "farm" },
+                { id: "ar_29", label: "Gran Espada del Caballero Negro — Drop Caballero Negro (espadón)",   tag: "farm" },
+                { id: "ar_30", label: "Gran Hacha del Caballero Negro — Drop Caballero Negro (hacha)",      tag: "farm" },
+                { id: "ar_31", label: "Alabarda del Caballero Negro — Drop Caballero Negro (alabarda)",     tag: "farm" },
+                { id: "ar_32", label: "Escudo del Caballero Negro — Drop cualquier Caballero Negro (5%)",   tag: "farm" },
+                { id: "ar_33", label: "Espada Recta del Caballero Plateado — Drop Caballero Plateado (espada) Anor Londo (2%)", tag: "farm" },
+                { id: "ar_34", label: "Lanza del Caballero Plateado — Drop Caballero Plateado (lanza) Anor Londo (2%)",        tag: "farm" },
+                { id: "ar_35", label: "Escudo del Caballero Plateado — Drop cualquier Caballero Plateado Anor Londo (1%)",     tag: "farm" },
+                { id: "ar_36", label: "Tridente del Canalizador — Drop del Canalizador (raro)",             tag: "farm" },
+                { id: "ar_37", label: "Gran Escudo de Havel — Drop de Havel el Roca",                      tag: "farm" },
+                { id: "ar_38", label: "Diente de Dragón — Drop de Havel el Roca",                          tag: "farm" },
+                { id: "ar_39", label: "Escudo de Sangre — Drop de Lautrec",                                tag: "farm" },
+                { id: "ar_40", label: "Escudo de Cresta — Drop de Óscar de Astora (regreso al Asilo)",     tag: "farm" },
+                { id: "ar_41", label: "Hacha Creciente — Comprar a Patches en Firelink (matar o hablar)",  tag: "farm" },
+                { id: "ar_42", label: "Estoque de Velka — Cofre en Mundo Pintado de Ariamis",              tag: "farm" },
+                { id: "ar_43", label: "Gran Hacha de Piedra — Drop del Guardián de Piedra (2%) Darkroot",  tag: "farm" },
+                { id: "ar_44", label: "Gran Escudo de Piedra — Drop del Guardián de Piedra (2%) Darkroot", tag: "farm" },
+                { id: "ar_45", label: "Gran Alabarda de los Gigantes — Drop Centinela Real, Anor Londo",   tag: "farm" },
+                { id: "ar_46", label: "Escudo de los Gigantes — Drop Centinela Real, Anor Londo",          tag: "farm" },
+                { id: "ar_47", label: "Lanza del Demonio — Drop Demonio Murciélago Anor Londo (2%) o comprar a Shiva en Blighttown", tag: "farm" },
+                { id: "ar_48", label: "Mano Oscura — Unirse al pacto Espectro Oscuro con Kaathe, o drop de Darkwraith (raro)", tag: "farm" },
+                { id: "ar_49", label: "Espada de Astora — Cadáver frente al Dragón No-Muerto, Valle de los Drakes", tag: "farm" }
             ]
         };
 
@@ -640,8 +702,9 @@
 
         function renderAllLists() {
             renderGenericList('historia', 'list_historia');
+            renderGenericList('jefes_opcionales', 'list_jefes_opcionales');
+            renderGenericList('mejoras', 'list_mejoras');
             renderGenericList('pactos', 'list_pactos');
-            renderGenericList('otros_logros', 'list_otros_logros');
             renderGenericList('hechizos', 'sub_hechizos');
             renderGenericList('piromancias', 'sub_piromancias');
             renderGenericList('milagros', 'sub_milagros');
@@ -652,7 +715,7 @@
             let totalItems = 0;
             let checkedItems = 0;
 
-            const categoryKeys = ['historia', 'pactos', 'otros_logros', 'hechizos', 'piromancias', 'milagros', 'armas'];
+            const categoryKeys = ['historia', 'jefes_opcionales', 'mejoras', 'pactos', 'hechizos', 'piromancias', 'milagros', 'armas'];
             
             categoryKeys.forEach(key => {
                 const sublist = trackerData[key];
