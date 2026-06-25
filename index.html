@@ -501,7 +501,6 @@
                 checkbox.addEventListener('change', (e) => {
                     saveItemState(item.id, e.target.checked);
                 });
-
                 container.appendChild(itemDiv);
             });
         }
@@ -511,11 +510,11 @@
             if (!container) return;
             container.innerHTML = '';
 
-            const searchVal = document.getElementById('searchWeapons')?.value.toLowerCase() || '';
+            const searchTxt = document.getElementById('searchWeapons')?.value.toLowerCase() || '';
 
             trackerData.armas.forEach(item => {
                 if (weaponFilter !== 'all' && item.tag !== weaponFilter) return;
-                if (searchVal && !item.label.toLowerCase().includes(searchVal)) return;
+                if (searchTxt && !item.label.toLowerCase().includes(searchTxt)) return;
 
                 const isChecked = !!globalCheckedItems[item.id];
                 const itemDiv = document.createElement('div');
@@ -523,103 +522,96 @@
                 
                 itemDiv.innerHTML = `
                     <input type="checkbox" id="${item.id}" ${isChecked ? 'checked' : ''} ${!hasStreamerAccess ? 'disabled' : ''} 
-                        class="w-4 h-4 rounded border-souls-border text-souls-gold focus:ring-0 focus:ring-offset-0 bg-souls-darkest cursor-pointer disabled:opacity-50">
-                    <div class="flex flex-col">
-                        <label for="${item.id}" class="text-sm font-medium select-none cursor-pointer text-gray-300 ${isChecked ? 'line-through text-souls-ash' : ''}">${item.label}</label>
-                        <span class="text-[10px] uppercase font-bold tracking-wider ${item.tag === 'boss' ? 'text-souls-gold/70' : item.tag === 'tails' ? 'text-souls-fire/70' : 'text-souls-ash'}">${item.tag}</span>
-                    </div>
+                        class="w-4 h-4 rounded border-souls-border text-souls-gold focus:ring-0 focus:ring-offset-0 bg-souls-darkest cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+                    <label for="${item.id}" class="text-sm select-none cursor-pointer text-gray-300 ${isChecked ? 'line-through text-souls-ash' : ''}">${item.label}</label>
                 `;
 
                 const checkbox = itemDiv.querySelector('input');
                 checkbox.addEventListener('change', (e) => {
                     saveItemState(item.id, e.target.checked);
                 });
-
                 container.appendChild(itemDiv);
             });
         }
 
         function updateUIState() {
             renderAllLists();
+            
+            // Calcular progreso
+            let total = 0;
+            let completed = 0;
+            
+            Object.keys(trackerData).forEach(key => {
+                let catCompleted = 0;
+                trackerData[key].forEach(item => {
+                    total++;
+                    if (globalCheckedItems[item.id]) {
+                        completed++;
+                        catCompleted++;
+                    }
+                });
+                
+                const badge = document.getElementById(`badgeProg_${key}`);
+                if (badge) badge.innerText = `${catCompleted}/${trackerData[key].length}`;
+            });
 
-            // Calcular contadores individuales
-            const countChecked = (list) => list.filter(item => globalCheckedItems[item.id]).length;
+            const percent = total > 0 ? Math.round((completed / total) * 100) : 0;
+            
+            const txtPercent = document.getElementById('txtProgressPercent');
+            const barProgress = document.getElementById('barProgress');
+            const txtFraction = document.getElementById('txtProgressFraction');
+            
+            if (txtPercent) txtPercent.innerText = `${percent}%`;
+            if (barProgress) barProgress.style.width = `${percent}%`;
+            if (txtFraction) txtFraction.innerText = `${completed} de ${total} hitos completados`;
 
-            const hChecked = countChecked(trackerData.historia);
-            const pChecked = countChecked(trackerData.pactos);
-            const heChecked = countChecked(trackerData.hechizos);
-            const piChecked = countChecked(trackerData.piromancias);
-            const miChecked = countChecked(trackerData.milagros);
-            const arChecked = countChecked(trackerData.armas);
-
-            document.getElementById('badgeProg_historia').innerText = `${hChecked}/${trackerData.historia.length}`;
-            document.getElementById('badgeProg_pactos').innerText = `${pChecked}/${trackerData.pactos.length}`;
-            document.getElementById('badgeProg_hechizos').innerText = `${heChecked}/${trackerData.hechizos.length}`;
-            document.getElementById('badgeProg_piromancias').innerText = `${piChecked}/${trackerData.piromancias.length}`;
-            document.getElementById('badgeProg_milagros').innerText = `${miChecked}/${trackerData.milagros.length}`;
-            document.getElementById('badgeProg_armas').innerText = `${arChecked}/${trackerData.armas.length}`;
-
-            // Progreso total global (113 en total)
-            const totalItems = trackerData.historia.length + trackerData.pactos.length + trackerData.hechizos.length + trackerData.piromancias.length + trackerData.milagros.length + trackerData.armas.length;
-            const totalChecked = hChecked + pChecked + heChecked + piChecked + miChecked + arChecked;
-            const percentage = Math.round((totalChecked / totalItems) * 100) || 0;
-
-            document.getElementById('txtProgressPercent').innerText = `${percentage}%`;
-            document.getElementById('txtProgressFraction').innerText = `${totalChecked} de ${totalItems} hitos completados`;
-            document.getElementById('barProgress').style.width = `${percentage}%`;
-
-            // Efecto visual dinámico de Hoguera (Brillo aumenta con el progreso)
-            const glow = document.getElementById('bonfireGlow');
-            if (glow) {
-                glow.style.transform = `scale(${1 + (percentage / 100)})`;
-                glow.style.opacity = `${0.1 + (percentage / 150)}`;
-            }
-
-            // Mostrar modal de éxito al 100%
-            if (totalChecked === totalItems && totalItems > 0) {
-                document.getElementById('modalSuccess').classList.remove('hidden');
+            // Mostrar modal si llegó al 100%
+            if (percent === 100 && completed > 0) {
+                document.getElementById('modalSuccess')?.classList.remove('hidden');
             }
         }
 
-        // === FUNCIONES EXPUESTAS AL ENTORNO GLOBAL (WINDOW) ===
+        // === FUNCIONES GLOBALES CONECTADAS AL HTML ===
         window.setRole = function(role) {
             currentRole = role;
             const btnViewer = document.getElementById('btnRoleViewer');
             const btnStreamer = document.getElementById('btnRoleStreamer');
             const configArea = document.getElementById('streamerConfigArea');
-            const notice = document.getElementById('roleNotice');
+            const roleNotice = document.getElementById('roleNotice');
             const btnReset = document.getElementById('btnResetAll');
 
             if (role === 'streamer') {
-                btnStreamer.className = "px-3 py-1.5 rounded text-xs font-bold tracking-wider uppercase transition-all bg-souls-gold text-souls-darkest shadow-lg shadow-souls-gold/20";
-                btnViewer.className = "px-3 py-1.5 rounded text-xs font-bold tracking-wider uppercase transition-all bg-souls-border text-souls-ash";
+                btnStreamer.className = "px-3 py-1.5 rounded text-xs font-bold tracking-wider uppercase transition-all duration-300 bg-souls-fire text-white shadow-lg shadow-souls-fire/20";
+                btnViewer.className = "px-3 py-1.5 rounded text-xs font-bold tracking-wider uppercase transition-all duration-300 bg-souls-border text-souls-ash";
                 configArea.classList.remove('hidden');
             } else {
-                btnViewer.className = "px-3 py-1.5 rounded text-xs font-bold tracking-wider uppercase transition-all bg-souls-gold text-souls-darkest shadow-lg shadow-souls-gold/20";
-                btnStreamer.className = "px-3 py-1.5 rounded text-xs font-bold tracking-wider uppercase transition-all bg-souls-border text-souls-ash";
+                btnViewer.className = "px-3 py-1.5 rounded text-xs font-bold tracking-wider uppercase transition-all duration-300 bg-souls-gold text-souls-darkest shadow-lg";
+                btnStreamer.className = "px-3 py-1.5 rounded text-xs font-bold tracking-wider uppercase transition-all duration-300 bg-souls-border text-souls-ash";
                 configArea.classList.add('hidden');
                 hasStreamerAccess = false;
-                notice.innerText = "Viendo en modo de espectador. Los cambios están bloqueados.";
-                notice.className = "text-xs text-souls-ash italic";
+                roleNotice.innerText = "Viendo en modo de espectador. Los cambios están bloqueados.";
+                roleNotice.className = "text-xs text-souls-ash italic";
                 btnReset.classList.add('hidden');
                 updateUIState();
             }
         };
 
         window.verifyAndAuthStreamer = function() {
-            const pin = document.getElementById('inputPIN').value;
-            const notice = document.getElementById('roleNotice');
+            const pinInput = document.getElementById('inputPIN');
+            const pin = pinInput ? pinInput.value : '';
+            const roleNotice = document.getElementById('roleNotice');
             const btnReset = document.getElementById('btnResetAll');
 
-            // PIN por defecto simple de demostración
+            // PIN CONFIGURADO
             if (pin === '26048436') { 
                 hasStreamerAccess = true;
-                notice.innerText = "¡Acceso de Streamer Concedido! Puedes gestionar la lista.";
-                notice.className = "text-xs text-green-500 font-bold uppercase tracking-wider";
+                roleNotice.innerText = "¡Acceso de Streamer Concedido! Puedes editar la lista.";
+                roleNotice.className = "text-xs text-emerald-400 font-bold uppercase tracking-wider";
                 btnReset.classList.remove('hidden');
+                if(pinInput) pinInput.value = '';
                 updateUIState();
             } else {
-                alert("PIN incorrecto. Sigue como espectador.");
+                alert("PIN incorrecto. El acceso ha sido denegado.");
             }
         };
 
@@ -628,31 +620,29 @@
             if (el) el.classList.toggle('hidden');
         };
 
+        window.filterWeapons = function() {
+            renderWeaponsList();
+        };
+
         window.setWeaponFilter = function(filter) {
             weaponFilter = filter;
             renderWeaponsList();
         };
 
-        window.filterWeapons = function() {
-            renderWeaponsList();
-        };
-
-        window.confirmResetAll = async function() {
+        window.confirmResetAll = function() {
             if (!hasStreamerAccess) return;
-            if (confirm("¿Estás seguro de que deseas vaciar todos los hitos del platino? Esta acción no se puede deshacer.")) {
-                try {
-                    await setDoc(docRef, { checked: {} });
-                } catch (e) {
-                    console.error(e);
-                }
+            if (confirm("¿Seguro que deseas borrar TODO el progreso de la transmisión? Esta acción no se puede deshacer.")) {
+                setDoc(docRef, { checked: {} })
+                    .then(() => alert("Hoguera reiniciada. Todos los hitos volvieron a 0."))
+                    .catch(e => console.error(e));
             }
         };
 
         window.closeSuccessModal = function() {
-            document.getElementById('modalSuccess').classList.add('hidden');
+            document.getElementById('modalSuccess')?.classList.add('hidden');
         };
 
-        // Inicializar el sistema al cargar la página
+        // Iniciar aplicación
         authenticate();
     </script>
 </body>
