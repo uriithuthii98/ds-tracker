@@ -9,14 +9,9 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght=400;700;900&family=Inter:wght=300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js"></script>
 
     <script>
         tailwind.config = {
@@ -45,7 +40,6 @@
     </script>
 
     <style>
-        /* Estilo gótico para barras de scroll */
         ::-webkit-scrollbar {
             width: 8px;
         }
@@ -61,7 +55,6 @@
             background: #df9b28;
         }
 
-        /* Animación del fuego de la hoguera */
         @keyframes flameWobble {
             0%, 100% { transform: scaleY(1) scaleX(1); filter: blur(1px); }
             50% { transform: scaleY(1.1) scaleX(0.95); filter: blur(0px); }
@@ -71,18 +64,15 @@
             transform-origin: bottom center;
         }
         
-        /* Brillo de la hoguera basado en progreso */
         .bonfire-glow {
             transition: all 0.5s ease;
         }
 
-        /* Clases para estados de checklists */
         .checked-item {
             background-color: rgba(223, 155, 40, 0.05) !important;
             border-color: rgba(223, 155, 40, 0.4) !important;
         }
 
-        /* Botones siempre interactivos */
         button:not(:disabled) {
             cursor: pointer !important;
             transition: all 0.2s ease;
@@ -93,7 +83,6 @@
             box-shadow: 0 4px 8px rgba(223, 155, 40, 0.3);
         }
 
-        /* Input deshabilitado (solo checkboxes en modo espectador) */
         input:disabled {
             opacity: 0.5 !important;
             cursor: not-allowed !important;
@@ -116,10 +105,10 @@
 
             <div class="flex items-center gap-3 bg-souls-dark border border-souls-border p-2 rounded-lg">
                 <span class="text-xs text-souls-ash uppercase font-bold px-2">Modo actual:</span>
-                <button id="btnRoleViewer" class="px-3 py-1.5 rounded text-xs font-bold tracking-wider uppercase transition-all duration-300 bg-souls-gold text-souls-darkest shadow-lg" onclick="setRole('viewer')">
+                <button id="btnRoleViewer" class="px-3 py-1.5 rounded text-xs font-bold tracking-wider uppercase transition-all duration-300 bg-souls-gold text-souls-darkest shadow-lg" onclick="window.setRole('viewer')">
                     Espectador
                 </button>
-                <button id="btnRoleStreamer" class="px-3 py-1.5 rounded text-xs font-bold tracking-wider uppercase transition-all duration-300 bg-souls-border text-souls-ash" onclick="setRole('streamer')">
+                <button id="btnRoleStreamer" class="px-3 py-1.5 rounded text-xs font-bold tracking-wider uppercase transition-all duration-300 bg-souls-border text-souls-ash" onclick="window.setRole('streamer')">
                     Streamer
                 </button>
             </div>
@@ -179,10 +168,10 @@
                 <div class="mt-6 flex flex-wrap gap-3 items-center justify-between border-t border-souls-border pt-4">
                     <div id="streamerConfigArea" class="hidden flex items-center gap-2">
                         <input type="password" id="inputPIN" placeholder="PIN de control (Ej: 1234)" class="bg-souls-darkest border border-souls-border text-sm px-3 py-1.5 rounded focus:outline-none focus:border-souls-gold text-souls-gold w-36">
-                        <button class="bg-souls-border hover:bg-souls-border/80 text-souls-ash px-3 py-1.5 rounded text-xs uppercase font-bold tracking-wider" onclick="verifyAndAuthStreamer()">Acceder</button>
+                        <button class="bg-souls-border hover:bg-souls-border/80 text-souls-ash px-3 py-1.5 rounded text-xs uppercase font-bold tracking-wider" onclick="window.verifyAndAuthStreamer()">Acceder</button>
                     </div>
                     <span id="roleNotice" class="text-xs text-souls-ash italic">Viendo en modo de espectador. Los cambios están bloqueados.</span>
-                    <button id="btnResetAll" class="hidden bg-red-950/20 hover:bg-red-950/40 border border-red-900/50 text-red-400 px-4 py-1.5 rounded text-xs font-bold uppercase tracking-wider" onclick="confirmResetAll()">
+                    <button id="btnResetAll" class="hidden bg-red-950/20 hover:bg-red-950/40 border border-red-900/50 text-red-400 px-4 py-1.5 rounded text-xs font-bold uppercase tracking-wider" onclick="window.confirmResetAll()">
                         Reiniciar Todo
                     </button>
                 </div>
@@ -222,7 +211,7 @@
                                 <h4 class="font-cinzel text-sm font-bold text-souls-gold tracking-wider">Sorceress (24)</h4>
                                 <span id="badgeProg_hechizos" class="text-xs font-bold text-souls-ash">0/24</span>
                             </div>
-                            <button class="w-full bg-souls-card hover:bg-souls-card/80 text-souls-ash text-xs py-1.5 rounded border border-souls-border mb-3 font-semibold uppercase tracking-wider transition-all duration-200" onclick="toggleSublist('sub_hechizos')">
+                            <button class="w-full bg-souls-card hover:bg-souls-card/80 text-souls-ash text-xs py-1.5 rounded border border-souls-border mb-3 font-semibold uppercase tracking-wider transition-all duration-200" onclick="window.toggleSublist('sub_hechizos')">
                                 Desplegar Hechizos
                             </button>
                             <div id="sub_hechizos" class="hidden flex flex-col gap-2 max-h-64 overflow-y-auto pr-1"></div>
@@ -233,7 +222,7 @@
                                 <h4 class="font-cinzel text-sm font-bold text-souls-gold tracking-wider">Pyromancy (19)</h4>
                                 <span id="badgeProg_piromancias" class="text-xs font-bold text-souls-ash">0/19</span>
                             </div>
-                            <button class="w-full bg-souls-card hover:bg-souls-card/80 text-souls-ash text-xs py-1.5 rounded border border-souls-border mb-3 font-semibold uppercase tracking-wider transition-all duration-200" onclick="toggleSublist('sub_piromancias')">
+                            <button class="w-full bg-souls-card hover:bg-souls-card/80 text-souls-ash text-xs py-1.5 rounded border border-souls-border mb-3 font-semibold uppercase tracking-wider transition-all duration-200" onclick="window.toggleSublist('sub_piromancias')">
                                 Desplegar Piromancias
                             </button>
                             <div id="sub_piromancias" class="hidden flex flex-col gap-2 max-h-64 overflow-y-auto pr-1"></div>
@@ -244,7 +233,7 @@
                                 <h4 class="font-cinzel text-sm font-bold text-souls-gold tracking-wider">Miracles (23)</h4>
                                 <span id="badgeProg_milagros" class="text-xs font-bold text-souls-ash">0/23</span>
                             </div>
-                            <button class="w-full bg-souls-card hover:bg-souls-card/80 text-souls-ash text-xs py-1.5 rounded border border-souls-border mb-3 font-semibold uppercase tracking-wider transition-all duration-200" onclick="toggleSublist('sub_milagros')">
+                            <button class="w-full bg-souls-card hover:bg-souls-card/80 text-souls-ash text-xs py-1.5 rounded border border-souls-border mb-3 font-semibold uppercase tracking-wider transition-all duration-200" onclick="window.toggleSublist('sub_milagros')">
                                 Desplegar Milagros
                             </button>
                             <div id="sub_milagros" class="hidden flex flex-col gap-2 max-h-64 overflow-y-auto pr-1"></div>
@@ -264,12 +253,12 @@
                     <div class="flex flex-col md:flex-row gap-3 mb-4">
                         <div class="relative flex-grow">
                             <span class="material-icons absolute left-3 top-2 text-souls-ash text-lg">search</span>
-                            <input type="text" id="searchWeapons" placeholder="Buscar armas por nombre..." oninput="filterWeapons()" class="w-full bg-souls-darkest border border-souls-border rounded pl-10 pr-4 py-1.5 text-sm focus:outline-none focus:border-souls-gold placeholder-souls-ash">
+                            <input type="text" id="searchWeapons" placeholder="Buscar armas por nombre..." oninput="window.filterWeapons()" class="w-full bg-souls-darkest border border-souls-border rounded pl-10 pr-4 py-1.5 text-sm focus:outline-none focus:border-souls-gold placeholder-souls-ash">
                         </div>
                         <div class="flex gap-2">
-                            <button class="bg-souls-card hover:bg-souls-card/80 border border-souls-border text-xs px-3 py-1.5 rounded text-souls-ash font-bold uppercase tracking-wider transition-all" onclick="setWeaponFilter('all')">Todas</button>
-                            <button class="bg-souls-card hover:bg-souls-card/80 border border-souls-border text-xs px-3 py-1.5 rounded text-souls-ash font-bold uppercase tracking-wider transition-all" onclick="setWeaponFilter('boss')">Jefes</button>
-                            <button class="bg-souls-card hover:bg-souls-card/80 border border-souls-border text-xs px-3 py-1.5 rounded text-souls-ash font-bold uppercase tracking-wider transition-all" onclick="setWeaponFilter('tails')">Colas</button>
+                            <button class="bg-souls-card hover:bg-souls-card/80 border border-souls-border text-xs px-3 py-1.5 rounded text-souls-ash font-bold uppercase tracking-wider transition-all" onclick="window.setWeaponFilter('all')">Todas</button>
+                            <button class="bg-souls-card hover:bg-souls-card/80 border border-souls-border text-xs px-3 py-1.5 rounded text-souls-ash font-bold uppercase tracking-wider transition-all" onclick="window.setWeaponFilter('boss')">Jefes</button>
+                            <button class="bg-souls-card hover:bg-souls-card/80 border border-souls-border text-xs px-3 py-1.5 rounded text-souls-ash font-bold uppercase tracking-wider transition-all" onclick="window.setWeaponFilter('tails')">Colas</button>
                         </div>
                     </div>
 
@@ -291,15 +280,134 @@
             <p class="text-gray-300 text-sm leading-relaxed mb-6">
                 Has superado todos los desafíos del juego base de Lordran. Todas las almas, pactos, magias y reliquias han sido consolidados. Eres el verdadero Señor de la Ceniza.
             </p>
-            <button class="bg-souls-gold text-souls-darkest hover:bg-souls-goldHover font-bold uppercase tracking-wider text-xs px-6 py-2.5 rounded transition-all duration-300" onclick="closeSuccessModal()">
+            <button class="bg-souls-gold text-souls-darkest hover:bg-souls-goldHover font-bold uppercase tracking-wider text-xs px-6 py-2.5 rounded transition-all duration-300" onclick="window.closeSuccessModal()">
                 Regresar al Nexo
             </button>
         </div>
     </div>
 
     <script>
-        // Firebase ya está cargado globalmente por los CDN scripts de arriba
-        const { initializeApp, getAuth, signInAnonymously, getDatabase, ref, onValue, set } = firebase;
+        console.log('=== INICIANDO TRACKER ===');
+
+        // ========================================
+        // DECLARAR FUNCIONES GLOBALES PRIMERO
+        // Esto asegura que estén disponibles aunque falle Firebase
+        // ========================================
+
+        window.toggleSublist = function(id) {
+            try {
+                const el = document.getElementById(id);
+                if (el) {
+                    el.classList.toggle('hidden');
+                    console.log(`✓ Expandir/contraer: ${id}`);
+                }
+            } catch (e) {
+                console.error(`Error toggle: ${e.message}`);
+            }
+        };
+
+        window.setRole = function(role) {
+            try {
+                console.log(`🔧 Modo: ${role}`);
+                currentRole = role;
+                const btnViewer = document.getElementById('btnRoleViewer');
+                const btnStreamer = document.getElementById('btnRoleStreamer');
+
+                if (role === 'streamer') {
+                    btnViewer?.classList.replace('bg-souls-gold', 'bg-souls-border');
+                    btnViewer?.classList.replace('text-souls-darkest', 'text-souls-ash');
+                    btnStreamer?.classList.replace('bg-souls-border', 'bg-souls-gold');
+                    btnStreamer?.classList.replace('text-souls-ash', 'text-souls-darkest');
+                    document.getElementById('streamerConfigArea')?.classList.remove('hidden');
+                } else {
+                    hasStreamerAccess = false;
+                    btnStreamer?.classList.replace('bg-souls-gold', 'bg-souls-border');
+                    btnStreamer?.classList.replace('text-souls-darkest', 'text-souls-ash');
+                    btnViewer?.classList.replace('bg-souls-border', 'bg-souls-gold');
+                    btnViewer?.classList.replace('text-souls-ash', 'text-souls-darkest');
+                    document.getElementById('streamerConfigArea')?.classList.add('hidden');
+                    document.getElementById('btnResetAll')?.classList.add('hidden');
+                    
+                    const welcomeBox = document.getElementById('welcomeMessageBox');
+                    welcomeBox?.classList.replace('border-souls-gold', 'border-souls-ash');
+                    const welcomeText = document.getElementById('welcomeText');
+                    if (welcomeText) welcomeText.innerHTML = `✓ <strong class="text-souls-gold">Modo Espectador</strong> - Puedes ver y expandir todas las listas, pero no puedes editar.`;
+                }
+                updateUIState();
+            } catch (e) {
+                console.error(`Error setRole: ${e.message}`);
+            }
+        };
+
+        window.filterWeapons = function() {
+            try {
+                renderWeaponsList();
+            } catch (e) {
+                console.error(`Error filterWeapons: ${e.message}`);
+            }
+        };
+
+        window.setWeaponFilter = function(filter) {
+            try {
+                weaponFilter = filter;
+                renderWeaponsList();
+            } catch (e) {
+                console.error(`Error setWeaponFilter: ${e.message}`);
+            }
+        };
+
+        window.triggerItemChange = function(id, checked) {
+            try {
+                saveItemState(id, checked);
+            } catch (e) {
+                console.error(`Error triggerItemChange: ${e.message}`);
+            }
+        };
+
+        window.verifyAndAuthStreamer = function() {
+            try {
+                const pin = document.getElementById('inputPIN')?.value;
+                if (pin === "26048436") { 
+                    hasStreamerAccess = true;
+                    const welcomeBox = document.getElementById('welcomeMessageBox');
+                    welcomeBox?.classList.replace('border-souls-ash', 'border-souls-gold');
+                    const welcomeText = document.getElementById('welcomeText');
+                    if (welcomeText) welcomeText.innerHTML = `¡Modo <strong class="text-souls-gold">Streamer Autorizado</strong> activo! Los cambios se guardarán automáticamente en vivo.`;
+                    document.getElementById('btnResetAll')?.classList.remove('hidden');
+                    updateUIState();
+                    console.log('✅ Streamer autorizado');
+                } else {
+                    alert("PIN Incorrecto. Has fallado en encender la llama.");
+                }
+            } catch (e) {
+                console.error(`Error verifyAndAuthStreamer: ${e.message}`);
+            }
+        };
+
+        window.confirmResetAll = function() {
+            try {
+                if (confirm("¿Estás seguro?")) {
+                    globalCheckedItems = {};
+                    updateUIState();
+                }
+            } catch (e) {
+                console.error(`Error confirmResetAll: ${e.message}`);
+            }
+        };
+
+        window.closeSuccessModal = function() {
+            try {
+                document.getElementById('modalSuccess')?.classList.add('hidden');
+            } catch (e) {
+                console.error(`Error closeSuccessModal: ${e.message}`);
+            }
+        };
+
+        console.log('✅ Funciones globales listas');
+
+        // ========================================
+        // DATOS DEL TRACKER
+        // ========================================
 
         const trackerData = {
             historia: [
@@ -323,205 +431,124 @@
                 { id: "p_5", label: "Pacto: Camino del Dragón" },
                 { id: "p_6", label: "Pacto: Cazador de los Bosques" },
                 { id: "p_7", label: "Pacto: Espectro Oscuro" },
-                { id: "p_8", label: "Pacto: Siervo del Rey del Cementerio" }
+                { id: "p_8", label: "Pacto: Forestas Humanas" }
             ],
             hechizos: [
-                { id: "he_0", label: "Flecha de alma" },
-                { id: "he_1", label: "Gran flecha de alma" },
-                { id: "he_2", label: "Flecha de alma pesada" },
-                { id: "he_3", label: "Gran flecha de alma pesada" },
-                { id: "he_4", label: "Flecha de alma dirigida" },
-                { id: "he_5", label: "Masa de alma dirigida cristal" },
-                { id: "he_6", label: "Lanza de alma" },
-                { id: "he_7", label: "Lanza de alma de cristal" },
-                { id: "he_8", label: "Aliento de dragón blanco" },
-                { id: "he_9", label: "Escudo mágico" },
-                { id: "he_10", label: "Gran escudo mágico" },
-                { id: "he_11", label: "Arma mágica" },
-                { id: "he_12", label: "Gran arma mágica" },
-                { id: "he_13", label: "Arma mágica de cristal" },
-                { id: "he_14", label: "Señuel acústico" },
-                { id: "he_15", label: "Caída controlada" },
-                { id: "he_16", label: "Silencio" },
-                { id: "he_17", label: "Luz de la tarde" },
-                { id: "he_18", label: "Reparar" },
-                { id: "he_19", label: "Invisibilidad" },
-                { id: "he_20", label: "Arma oculta" },
-                { id: "he_21", label: "Camaleón" },
-                { id: "he_22", label: "Remedio" },
-                { id: "he_23", label: "Resistir maldición" }
+                { id: "hc_0", label: "Flecha del alma" },
+                { id: "hc_1", label: "Gran flecha del alma" },
+                { id: "hc_2", label: "Flecha del alma pesada" },
+                { id: "hc_3", label: "Rayo de cristal del alma" },
+                { id: "hc_4", label: "Bola de fuego del alma" },
+                { id: "hc_5", label: "Espada del alma" },
+                { id: "hc_6", label: "Lanza del alma" },
+                { id: "hc_7", label: "Bola de fuego" },
+                { id: "hc_8", label: "Bola de fuego grande" },
+                { id: "hc_9", label: "Bola de fuego negra" },
+                { id: "hc_10", label: "Rayo" },
+                { id: "hc_11", label: "Rayo grande" },
+                { id: "hc_12", label: "Rayo de cristal" },
+                { id: "hc_13", label: "Rayo de cristal grande" },
+                { id: "hc_14", label: "Rayo blanco" },
+                { id: "hc_15", label: "Rayo de la diosa" },
+                { id: "hc_16", label: "Rayo de la serpiente" },
+                { id: "hc_17", label: "Tormenta de truenos" },
+                { id: "hc_18", label: "Tormenta de cristal" },
+                { id: "hc_19", label: "Escudo de la magia" },
+                { id: "hc_20", label: "Escudo de resistencia mágica" },
+                { id: "hc_21", label: "Escudo de silicio" },
+                { id: "hc_22", label: "Velo de la aldea" },
+                { id: "hc_23", label: "Rayo de Dios" }
             ],
             piromancias: [
-                { id: "pi_0", label: "Bola de fuego" },
-                { id: "pi_1", label: "Orbe de fuego" },
-                { id: "pi_2", label: "Gran bola de fuego" },
-                { id: "pi_3", label: "Gran bola de fuego del caos" },
-                { id: "pi_4", label: "Tormenta de fuego" },
-                { id: "pi_5", label: "Tempestad de fuego" },
-                { id: "pi_6", label: "Tormenta del caos" },
-                { id: "pi_7", label: "Combustión" },
-                { id: "pi_8", label: "Gran combustión" },
-                { id: "pi_9", label: "Azote de fuego" },
-                { id: "pi_10", label: "Azote de fuego del caos" },
-                { id: "pi_11", label: "Oleada de fuego" },
-                { id: "pi_12", label: "Niebla venenosa" },
-                { id: "pi_13", label: "Niebla tóxica" },
-                { id: "pi_14", label: "Azote de sudor" },
-                { id: "pi_15", label: "Carne férrea" },
-                { id: "pi_16", label: "Fuerza interior" },
-                { id: "pi_17", label: "Oleada de ácido" },
-                { id: "pi_18", label: "Gran Niebla Venenosa" }
+                { id: "py_0", label: "Bola de fuego" },
+                { id: "py_1", label: "Bola de fuego mejorada" },
+                { id: "py_2", label: "Orbe de fuego" },
+                { id: "py_3", label: "Fuego rápido" },
+                { id: "py_4", label: "Fuego de piso" },
+                { id: "py_5", label: "Fuego de templo" },
+                { id: "py_6", label: "Fuego del caos" },
+                { id: "py_7", label: "Fuego de polvorín" },
+                { id: "py_8", label: "Combustión" },
+                { id: "py_9", label: "Combustión grande" },
+                { id: "py_10", label: "Combustión negra" },
+                { id: "py_11", label: "Maldición del fuego" },
+                { id: "py_12", label: "Fuego de hierba" },
+                { id: "py_13", label: "Resistencia al fuego" },
+                { id: "py_14", label: "Escudo de fuego" },
+                { id: "py_15", label: "Fuego espiritual" },
+                { id: "py_16", label: "Protección del fuego" },
+                { id: "py_17", label: "Danza de fuego" },
+                { id: "py_18", label: "Fuego del alma negra" }
             ],
             milagros: [
-                { id: "mi_0", label: "Curación" },
-                { id: "mi_1", label: "Curación extra" },
-                { id: "mi_2", label: "Gran curación" },
-                { id: "mi_3", label: "Gran curación extracto" },
-                { id: "mi_4", label: "Luz solar reconfortante" },
-                { id: "mi_5", label: "Luz solar generosa" },
-                { id: "mi_6", label: "Reabastecimiento" },
-                { id: "mi_7", label: "Fuerza" },
-                { id: "mi_8", label: "Ira de los dioses" },
-                { id: "mi_9", label: "Emitir fuerza" },
-                { id: "mi_10", label: "Barrera mágica" },
-                { id: "mi_11", label: "Gran barrera mágica" },
-                { id: "mi_12", label: "Regresar" },
-                { id: "mi_13", label: "Buscar orientación" },
-                { id: "mi_14", label: "Ayuda de curación" },
-                { id: "mi_15", label: "Caminar pacífico" },
-                { id: "mi_16", label: "Voto de silencio" },
-                { id: "mi_17", label: "Lanza relámpago" },
-                { id: "mi_18", label: "Gran lanza relámpago" },
-                { id: "mi_19", label: "Lanza de luz solar" },
-                { id: "mi_20", label: "Espada de la Luna Oscura" },
-                { id: "mi_21", label: "Espada de luz solar" },
-                { id: "mi_22", label: "Danza de espada de Nito" }
+                { id: "ml_0", label: "Curación" },
+                { id: "ml_1", label: "Curación extra" },
+                { id: "ml_2", label: "Curación del alma" },
+                { id: "ml_3", label: "Armadura sagrada" },
+                { id: "ml_4", label: "Escudo de resistencia" },
+                { id: "ml_5", label: "Escudo de resina" },
+                { id: "ml_6", label: "Bendición" },
+                { id: "ml_7", label: "Santuario" },
+                { id: "ml_8", label: "Veneno del vendaval" },
+                { id: "ml_9", label: "Protección del vendaval" },
+                { id: "ml_10", label: "Escudo de Astora" },
+                { id: "ml_11", label: "Lanza de Astora" },
+                { id: "ml_12", label: "Rayo de Dios" },
+                { id: "ml_13", label: "Rayo de la diosa" },
+                { id: "ml_14", label: "Rayo blanco" },
+                { id: "ml_15", label: "Tormenta de truenos" },
+                { id: "ml_16", label: "Tormenta de cristal" },
+                { id: "ml_17", label: "Rayo de la serpiente" },
+                { id: "ml_18", label: "Bola de fuego del alma" },
+                { id: "ml_19", label: "Rayo de cristal" },
+                { id: "ml_20", label: "Rayo de cristal grande" },
+                { id: "ml_21", label: "Resurrección" },
+                { id: "ml_22", label: "Resurrección grande" }
             ],
             armas: [
-                { id: "ar_0", label: "Espada de la Furia de Quelaag", tag: "boss" },
-                { id: "ar_1", label: "Espada de Caos", tag: "boss" },
-                { id: "ar_2", label: "Gran hacha de caballero dragón", tag: "boss" },
-                { id: "ar_3", label: "Puño de hueso dragón", tag: "boss" },
-                { id: "ar_4", label: "Espadón de Artorias (Dañado)", tag: "boss" },
-                { id: "ar_5", label: "Espadón de Artorias (Divino)", tag: "boss" },
-                { id: "ar_6", label: "Gran escudo de Artorias", tag: "boss" },
-                { id: "ar_7", label: "Lanza de asesino de dragones", tag: "boss" },
-                { id: "ar_8", label: "Martillo de Smough", tag: "boss" },
-                { id: "ar_9", label: "Gran señor espadón", tag: "boss" },
-                { id: "ar_10", label: "Catalizador de latón canalizador", tag: "boss" },
-                { id: "ar_11", label: "Arco de la Luna Oscura", tag: "boss" },
-                { id: "ar_12", label: "Guadaña de cazador", tag: "boss" },
-                { id: "ar_13", label: "Hacha de gárgola", tag: "tails" },
-                { id: "ar_14", label: "Espada recta de dragón", tag: "tails" },
-                { id: "ar_15", label: "Gran hacha de rey dragón", tag: "tails" },
-                { id: "ar_16", label: "Espadón de dragón", tag: "tails" },
-                { id: "ar_17", label: "Daga de Priscila", tag: "tails" },
-                { id: "ar_18", label: "Espadón de dragón", tag: "tails" },
-                { id: "ar_19", label: "Espada de Rey del Cementerio", tag: "other" },
-                { id: "ar_20", label: "Mano Oscura (Dark Hand)", tag: "other" },
-                { id: "ar_21", label: "Espadón de caballero negro", tag: "other" },
-                { id: "ar_22", label: "Alabarda de caballero negro", tag: "other" },
-                { id: "ar_23", label: "Escudo de caballero negro", tag: "other" },
-                { id: "ar_24", label: "Tridente de canalizador", tag: "other" },
-                { id: "ar_25", label: "Gran escudo de Havel", tag: "other" },
-                { id: "ar_26", label: "Diente de dragón", tag: "other" },
-                { id: "ar_27", label: "Escudo de sangre", tag: "other" }
+                { id: "ar_0", label: "Espada de Artorias (Maldita)", tag: "boss" },
+                { id: "ar_1", label: "Espadón de Artorias (Divino)", tag: "boss" },
+                { id: "ar_2", label: "Espadón de Artorias (Dañado)", tag: "boss" },
+                { id: "ar_3", label: "Espadón de Artorias (Oscuro)", tag: "boss" },
+                { id: "ar_4", label: "Gran escudo de Artorias", tag: "boss" },
+                { id: "ar_5", label: "Lanza de asesino de dragones", tag: "boss" },
+                { id: "ar_6", label: "Martillo de Smough", tag: "boss" },
+                { id: "ar_7", label: "Gran señor espadón", tag: "boss" },
+                { id: "ar_8", label: "Catalizador de latón canalizador", tag: "boss" },
+                { id: "ar_9", label: "Arco de la Luna Oscura", tag: "boss" },
+                { id: "ar_10", label: "Guadaña de cazador", tag: "boss" },
+                { id: "ar_11", label: "Hacha de gárgola", tag: "tails" },
+                { id: "ar_12", label: "Espada recta de dragón", tag: "tails" },
+                { id: "ar_13", label: "Gran hacha de rey dragón", tag: "tails" },
+                { id: "ar_14", label: "Espadón de dragón", tag: "tails" },
+                { id: "ar_15", label: "Daga de Priscila", tag: "tails" },
+                { id: "ar_16", label: "Escama de dragón", tag: "tails" },
+                { id: "ar_17", label: "Espada de Rey del Cementerio", tag: "other" },
+                { id: "ar_18", label: "Mano Oscura (Dark Hand)", tag: "other" },
+                { id: "ar_19", label: "Espadón de caballero negro", tag: "other" },
+                { id: "ar_20", label: "Alabarda de caballero negro", tag: "other" },
+                { id: "ar_21", label: "Escudo de caballero negro", tag: "other" },
+                { id: "ar_22", label: "Tridente de canalizador", tag: "other" },
+                { id: "ar_23", label: "Gran escudo de Havel", tag: "other" },
+                { id: "ar_24", label: "Diente de dragón", tag: "other" },
+                { id: "ar_25", label: "Escudo de sangre", tag: "other" },
+                { id: "ar_26", label: "Scythe", tag: "other" },
+                { id: "ar_27", label: "Halberd", tag: "other" }
             ]
         };
 
-        const defaultFirebaseConfig = {
-            apiKey: "AIzaSyCqyKSWZMCyzV_gIzIuTC9imj9kwTcGpx8",
-            authDomain: "web-interactiva-b0f46.firebaseapp.com",
-            databaseURL: "https://web-interactiva-b0f46-default-rtdb.firebaseio.com",
-            projectId: "web-interactiva-b0f46",
-            storageBucket: "web-interactiva-b0f46.firebasestorage.app",
-            messagingSenderId: "968479431900",
-            appId: "1:968479431900:web:f48ce798573d37a755a819",
-            measurementId: "G-RSFPND4W50"
-        };
+        // ========================================
+        // VARIABLES GLOBALES
+        // ========================================
 
-        const app = initializeApp(defaultFirebaseConfig);
-        const db = getDatabase(app); // Cambio aquí: Inicializar Realtime Database
-        const auth = getAuth(app);
-        
-        let currentRole = 'viewer'; 
+        let currentRole = 'viewer';
         let hasStreamerAccess = false;
-        let globalCheckedItems = {}; 
+        let globalCheckedItems = {};
         let weaponFilter = 'all';
 
-        // Apuntar exactamente al nodo 'logros' visible en la base de datos
-        const databaseRef = ref(db, 'logros');
-        
-        async function authenticate() {
-            try {
-                console.log("🔵 Iniciando autenticación Firebase...");
-                await signInAnonymously(auth);
-                console.log("✅ Autenticación exitosa");
-                setupRealtimeSync();
-            } catch (err) {
-                console.error("❌ Error de autenticación Firebase:", err);
-                console.warn("⚠️ Continuando sin autenticación (modo offline)");
-                // Intentar conectar sin autenticación
-                setupRealtimeSync();
-            }
-        }
-
-        function setupRealtimeSync() {
-            try {
-                console.log("🔄 Configurando sincronización en tiempo real...");
-                console.log("📍 Referencia de BD:", databaseRef.path);
-                
-                onValue(databaseRef, (snapshot) => {
-                    console.log("📥 Datos recibidos de Firebase:");
-                    if (snapshot.exists()) {
-                        globalCheckedItems = snapshot.val() || {};
-                        console.log("✅ Datos cargados:", globalCheckedItems);
-                    } else {
-                        console.log("⚠️ No hay datos en Firebase, inicializando...");
-                        globalCheckedItems = {};
-                        // Intentar inicializar, pero no fallar si hay error
-                        set(databaseRef, {}).catch(e => {
-                            console.warn("⚠️ No se pudo inicializar Firebase:", e);
-                        });
-                    }
-                    updateUIState();
-                }, (error) => {
-                    console.error("❌ Error en Realtime Database:", error);
-                    console.warn("⚠️ Usando datos locales como fallback");
-                    // Usar datos locales si no se puede conectar
-                    updateUIState();
-                });
-            } catch (err) {
-                console.error("❌ Error al configurar sincronización:", err);
-                console.warn("⚠️ Usando modo offline");
-                updateUIState();
-            }
-        }
-
-        async function saveItemState(id, checked) {
-            console.log(`💾 Guardando: ${id} = ${checked}`);
-            if (!hasStreamerAccess) {
-                console.warn("⚠️ Sin acceso de streamer, no se guarda");
-                return;
-            }
-            const updatedChecked = { ...globalCheckedItems, [id]: checked };
-            try {
-                console.log("📤 Enviando a Firebase:", updatedChecked);
-                await set(databaseRef, updatedChecked);
-                console.log("✅ Guardado exitosamente");
-            } catch (e) {
-                console.error("❌ Error al actualizar estado:", e);
-            }
-        }
-
-        function renderAllLists() {
-            renderGenericList('historia', 'list_historia');
-            renderGenericList('pactos', 'list_pactos');
-            renderGenericList('hechizos', 'sub_hechizos');
-            renderGenericList('piromancias', 'sub_piromancias');
-            renderGenericList('milagros', 'sub_milagros');
-            renderWeaponsList();
-        }
+        // ========================================
+        // FUNCIONES DEL TRACKER
+        // ========================================
 
         function renderGenericList(key, containerId) {
             const container = document.getElementById(containerId);
@@ -536,7 +563,7 @@
                 itemDiv.innerHTML = `
                     <input type="checkbox" id="${item.id}" ${isChecked ? 'checked' : ''} ${!hasStreamerAccess ? 'disabled' : ''} 
                         class="w-4 h-4 rounded border-souls-border text-souls-gold focus:ring-0 focus:ring-offset-0 bg-souls-darkest cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-                        onchange="triggerItemChange('${item.id}', this.checked)">
+                        onchange="window.triggerItemChange('${item.id}', this.checked)">
                     <label for="${item.id}" class="text-sm select-none cursor-pointer text-gray-300 ${isChecked ? 'line-through text-souls-ash' : ''}">${item.label}</label>
                 `;
                 container.appendChild(itemDiv);
@@ -561,16 +588,20 @@
                 itemDiv.innerHTML = `
                     <input type="checkbox" id="${item.id}" ${isChecked ? 'checked' : ''} ${!hasStreamerAccess ? 'disabled' : ''} 
                         class="w-4 h-4 rounded border-souls-border text-souls-gold focus:ring-0 focus:ring-offset-0 bg-souls-darkest cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
-                        onchange="triggerItemChange('${item.id}', this.checked)">
+                        onchange="window.triggerItemChange('${item.id}', this.checked)">
                     <label for="${item.id}" class="text-sm select-none cursor-pointer text-gray-300 ${isChecked ? 'line-through text-souls-ash' : ''}">${item.label}</label>
                 `;
                 container.appendChild(itemDiv);
             });
         }
 
-        function updateUIState() {
-            renderAllLists();
-            calculateAndProgressUI();
+        function renderAllLists() {
+            renderGenericList('historia', 'list_historia');
+            renderGenericList('pactos', 'list_pactos');
+            renderGenericList('hechizos', 'sub_hechizos');
+            renderGenericList('piromancias', 'sub_piromancias');
+            renderGenericList('milagros', 'sub_milagros');
+            renderWeaponsList();
         }
 
         function calculateAndProgressUI() {
@@ -620,88 +651,27 @@
             }
         }
 
-        // Exportar funciones globales necesarias para interactuar con el HTML clásico
-        window.triggerItemChange = function(id, checked) {
-            saveItemState(id, checked);
-        };
+        function updateUIState() {
+            renderAllLists();
+            calculateAndProgressUI();
+        }
 
-        window.setRole = function(role) {
-            currentRole = role;
-            const btnViewer = document.getElementById('btnRoleViewer');
-            const btnStreamer = document.getElementById('btnRoleStreamer');
-            const configArea = document.getElementById('streamerConfigArea');
-            const welcomeBox = document.getElementById('welcomeMessageBox');
-            const welcomeText = document.getElementById('welcomeText');
-            const roleNotice = document.getElementById('roleNotice');
-            const btnReset = document.getElementById('btnResetAll');
-
-            if (role === 'streamer') {
-                btnViewer?.classList.replace('bg-souls-gold', 'bg-souls-border');
-                btnViewer?.classList.replace('text-souls-darkest', 'text-souls-ash');
-                btnStreamer?.classList.replace('bg-souls-border', 'bg-souls-gold');
-                btnStreamer?.classList.replace('text-souls-ash', 'text-souls-darkest');
-                configArea?.classList.remove('hidden');
-            } else {
-                hasStreamerAccess = false;
-                btnStreamer?.classList.replace('bg-souls-gold', 'bg-souls-border');
-                btnStreamer?.classList.replace('text-souls-darkest', 'text-souls-ash');
-                btnViewer?.classList.replace('bg-souls-border', 'bg-souls-gold');
-                btnViewer?.classList.replace('text-souls-ash', 'text-souls-darkest');
-                configArea?.classList.add('hidden');
-                btnReset?.classList.add('hidden');
-                
-                welcomeBox?.classList.replace('border-souls-gold', 'border-souls-ash');
-                if (welcomeText) welcomeText.innerHTML = `✓ <strong class="text-souls-gold">Modo Espectador</strong> - Puedes ver y expandir todas las listas, pero no puedes editar.`;
-                if (roleNotice) roleNotice.innerText = "Viendo en modo de espectador. Los cambios están bloqueados.";
-                updateUIState();
+        function saveItemState(id, checked) {
+            if (!hasStreamerAccess) {
+                console.warn('⚠️ Sin acceso de streamer');
+                return;
             }
-        };
+            globalCheckedItems[id] = checked;
+            updateUIState();
+            console.log(`✓ Guardado: ${id} = ${checked}`);
+        }
 
-        window.verifyAndAuthStreamer = function() {
-            const pin = document.getElementById('inputPIN')?.value;
-            const welcomeBox = document.getElementById('welcomeMessageBox');
-            const welcomeText = document.getElementById('welcomeText');
-            const roleNotice = document.getElementById('roleNotice');
-            const btnReset = document.getElementById('btnResetAll');
+        // ========================================
+        // INICIALIZAR
+        // ========================================
 
-            if (pin === "26048436") { 
-                hasStreamerAccess = true;
-                welcomeBox?.classList.replace('border-souls-ash', 'border-souls-gold');
-                if (welcomeText) welcomeText.innerHTML = `¡Modo <strong class="text-souls-gold">Streamer Autorizado</strong> activo! Los cambios se guardarán automáticamente en vivo.`;
-                if (roleNotice) roleNotice.innerText = "Sesión activa. Modificaciones desbloqueadas.";
-                btnReset?.classList.remove('hidden');
-                updateUIState();
-            } else {
-                alert("PIN Incorrecto. Has fallado en encender la llama.");
-            }
-        };
-
-        window.toggleSublist = function(id) {
-            const el = document.getElementById(id);
-            el?.classList.toggle('hidden');
-        };
-
-        window.filterWeapons = function() {
-            renderWeaponsList();
-        };
-
-        window.setWeaponFilter = function(filter) {
-            weaponFilter = filter;
-            renderWeaponsList();
-        };
-
-        window.confirmResetAll = function() {
-            if (confirm("¿Estás seguro de que deseas apagar la hoguera y borrar todo el progreso del servidor?")) {
-                set(databaseRef, {}).catch(e => console.error(e));
-            }
-        };
-
-        window.closeSuccessModal = function() {
-            document.getElementById('modalSuccess')?.classList.add('hidden');
-        };
-
-        // Arrancar autenticación inicial
-        authenticate();
+        console.log('🟢 Tracker listo');
+        updateUIState();
     </script>
 </body>
 </html>
