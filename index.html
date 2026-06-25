@@ -5,18 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dark Souls Remastered Live Platinum Tracker</title>
     
-    <!-- Tailwind CSS para diseño rápido y responsivo -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Fuentes Temáticas de Google Fonts (Cinzel para títulos góticos, Inter para textos limpios) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
     
-    <!-- Material Icons para símbolos de la interfaz -->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
-    <!-- Configuración personalizada de Tailwind para colores estilo Dark Souls -->
     <script>
         tailwind.config = {
             theme: {
@@ -86,7 +82,6 @@
 
     <div id="app" class="max-w-7xl mx-auto px-4 py-6 flex flex-col min-h-screen">
         
-        <!-- HEADER PRINCIPAL -->
         <header class="border-b border-souls-border pb-6 mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="text-center md:text-left">
                 <h1 class="font-cinzel text-3xl md:text-4xl lg:text-5xl font-black text-souls-gold tracking-widest uppercase">
@@ -97,53 +92,41 @@
                 </p>
             </div>
 
-            <!-- Panel de Control del Rol (Streamer vs Viewer) -->
             <div class="flex items-center gap-3 bg-souls-dark border border-souls-border p-2 rounded-lg">
                 <span class="text-xs text-souls-ash uppercase font-bold px-2">Modo actual:</span>
-                <button id="btnRoleViewer" class="px-3 py-1.5 rounded text-xs font-bold tracking-wider uppercase transition-all duration-300 bg-souls-border text-souls-ash" onclick="setRole('viewer')">
+                <button id="btnRoleViewer" class="px-3 py-1.5 rounded text-xs font-bold tracking-wider uppercase transition-all duration-300 bg-souls-gold text-souls-darkest shadow-lg" onclick="window.setRole('viewer')">
                     Espectador
                 </button>
-                <button id="btnRoleStreamer" class="px-3 py-1.5 rounded text-xs font-bold tracking-wider uppercase transition-all duration-300 bg-souls-gold text-souls-darkest shadow-lg shadow-souls-gold/20" onclick="setRole('streamer')">
+                <button id="btnRoleStreamer" class="px-3 py-1.5 rounded text-xs font-bold tracking-wider uppercase transition-all duration-300 bg-souls-border text-souls-ash" onclick="window.setRole('streamer')">
                     Streamer
                 </button>
             </div>
         </header>
 
-        <!-- SECCIÓN DE BIENVENIDA Y BONFIRE -->
         <section class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
             
-            <!-- Hoguera Interactiva (Visualizador de Progreso) -->
             <div class="lg:col-span-1 bg-souls-dark border border-souls-border p-6 rounded-lg flex flex-col items-center justify-center relative overflow-hidden">
                 <div class="absolute inset-0 bg-radial-gradient from-souls-fire/5 to-transparent pointer-events-none"></div>
                 
                 <h3 class="font-cinzel text-lg font-bold text-souls-gold tracking-widest uppercase mb-4">La Hoguera</h3>
                 
-                <!-- SVG animado de la hoguera -->
                 <div class="relative w-40 h-40 flex items-center justify-center">
-                    <!-- Brillo de fondo dinámico -->
                     <div id="bonfireGlow" class="absolute w-24 h-24 rounded-full bg-souls-fire/10 blur-xl bonfire-glow"></div>
                     
                     <svg viewBox="0 0 100 100" class="w-full h-full relative z-10">
-                        <!-- Espadas cruzadas / Ceniza base -->
                         <path d="M30 85 L70 85 M40 85 L60 65 M60 85 L40 65" stroke="#3a322d" stroke-width="4" stroke-linecap="round"/>
                         <path d="M50 85 L35 55 M50 85 L65 55" stroke="#4a423d" stroke-width="5" stroke-linecap="round"/>
-                        <!-- Espada clavada (Símbolo de la hoguera) -->
                         <path d="M50 90 L50 40 M45 48 L55 48" stroke="#7d7469" stroke-width="3" stroke-linecap="round"/>
                         <polygon points="48,38 52,38 50,42" fill="#7d7469" />
                         
-                        <!-- Llama Dinámica -->
                         <g id="bonfireFlames" class="flame-particle">
-                            <!-- Llama externa roja -->
                             <path d="M50 82 C35 75 38 45 50 25 C62 45 65 75 50 82 Z" fill="#e63900" opacity="0.8"/>
-                            <!-- Llama intermedia naranja -->
                             <path d="M50 82 C40 78 42 55 50 35 C58 55 60 78 50 82 Z" fill="#ff6600" opacity="0.9"/>
-                            <!-- Llama interna dorada -->
                             <path d="M50 82 C44 80 45 65 50 45 C55 65 56 80 50 82 Z" fill="#ffcc00"/>
                         </g>
                     </svg>
                 </div>
 
-                <!-- Detalles de Progreso -->
                 <div class="text-center mt-4 w-full z-10">
                     <div id="txtProgressPercent" class="font-cinzel text-4xl font-black text-souls-gold">0%</div>
                     <p class="text-xs text-souls-ash uppercase font-semibold tracking-wider mt-1">Logrado para el Platino</p>
@@ -155,7 +138,6 @@
                 </div>
             </div>
 
-            <!-- Información y Control en Vivo -->
             <div class="lg:col-span-2 bg-souls-dark border border-souls-border p-6 rounded-lg flex flex-col justify-between">
                 <div>
                     <h3 class="font-cinzel text-xl font-bold text-souls-gold tracking-wider mb-2">Sincronización en Directo</h3>
@@ -175,26 +157,22 @@
                     </div>
                 </div>
 
-                <!-- Botón de reset general o configuración de PIN -->
                 <div class="mt-6 flex flex-wrap gap-3 items-center justify-between border-t border-souls-border pt-4">
                     <div id="streamerConfigArea" class="hidden flex items-center gap-2">
-                        <input type="password" id="inputPIN" placeholder="PIN de control" class="bg-souls-darkest border border-souls-border text-sm px-3 py-1.5 rounded focus:outline-none focus:border-souls-gold text-souls-gold w-36">
-                        <button class="bg-souls-border hover:bg-souls-border/80 text-souls-ash px-3 py-1.5 rounded text-xs uppercase font-bold tracking-wider" onclick="verifyAndAuthStreamer()">Acceder</button>
+                        <input type="password" id="inputPIN" placeholder="PIN de control (Ej: 1234)" class="bg-souls-darkest border border-souls-border text-sm px-3 py-1.5 rounded focus:outline-none focus:border-souls-gold text-souls-gold w-36">
+                        <button class="bg-souls-border hover:bg-souls-border/80 text-souls-ash px-3 py-1.5 rounded text-xs uppercase font-bold tracking-wider" onclick="window.verifyAndAuthStreamer()">Acceder</button>
                     </div>
                     <span id="roleNotice" class="text-xs text-souls-ash italic">Viendo en modo de espectador. Los cambios están bloqueados.</span>
-                    <button id="btnResetAll" class="hidden bg-red-950/20 hover:bg-red-950/40 border border-red-900/50 text-red-400 px-4 py-1.5 rounded text-xs font-bold uppercase tracking-wider" onclick="confirmResetAll()">
+                    <button id="btnResetAll" class="hidden bg-red-950/20 hover:bg-red-950/40 border border-red-900/50 text-red-400 px-4 py-1.5 rounded text-xs font-bold uppercase tracking-wider" onclick="window.confirmResetAll()">
                         Reiniciar Todo
                     </button>
                 </div>
             </div>
         </section>
 
-        <!-- GRID DE CHECKLISTS -->
         <main class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
-            <!-- COLUMNA IZQUIERDA: HISTORIA Y PACTOS -->
             <div class="lg:col-span-4 flex flex-col gap-6">
-                <!-- SECCIÓN: JEFES E HISTORIA -->
                 <section class="bg-souls-dark border border-souls-border p-6 rounded-lg">
                     <div class="flex justify-between items-center mb-4 border-b border-souls-border pb-2">
                         <h3 class="font-cinzel text-lg font-bold text-souls-gold tracking-widest uppercase">Historia y Jefes</h3>
@@ -203,7 +181,6 @@
                     <div class="flex flex-col gap-2.5" id="list_historia"></div>
                 </section>
 
-                <!-- SECCIÓN: PACTOS -->
                 <section class="bg-souls-dark border border-souls-border p-6 rounded-lg">
                     <div class="flex justify-between items-center mb-4 border-b border-souls-border pb-2">
                         <h3 class="font-cinzel text-lg font-bold text-souls-gold tracking-widest uppercase">Pactos</h3>
@@ -214,46 +191,41 @@
                 </section>
             </div>
 
-            <!-- COLUMNA DERECHA: MAGIAS Y ARMAS RARAS -->
             <div class="lg:col-span-8 flex flex-col gap-6">
-                <!-- SECCIÓN: MAGIAS -->
                 <section class="bg-souls-dark border border-souls-border p-6 rounded-lg">
                     <h3 class="font-cinzel text-xl font-bold text-souls-gold tracking-widest uppercase mb-4 border-b border-souls-border pb-2">
                         Hechizos, Piromancias y Milagros
                     </h3>
                     
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        <!-- Columna: Hechizos -->
                         <div class="bg-souls-darkest p-4 rounded-lg border border-souls-border">
                             <div class="flex justify-between items-center mb-3">
                                 <h4 class="font-cinzel text-sm font-bold text-souls-gold tracking-wider">Sorceress (24)</h4>
                                 <span id="badgeProg_hechizos" class="text-xs font-bold text-souls-ash">0/24</span>
                             </div>
-                            <button class="w-full bg-souls-card hover:bg-souls-card/80 text-souls-ash text-xs py-1.5 rounded border border-souls-border mb-3 font-semibold uppercase tracking-wider transition-all duration-200" onclick="toggleSublist('sub_hechizos')">
+                            <button class="w-full bg-souls-card hover:bg-souls-card/80 text-souls-ash text-xs py-1.5 rounded border border-souls-border mb-3 font-semibold uppercase tracking-wider transition-all duration-200" onclick="window.toggleSublist('sub_hechizos')">
                                 Desplegar Hechizos
                             </button>
                             <div id="sub_hechizos" class="hidden flex flex-col gap-2 max-h-64 overflow-y-auto pr-1"></div>
                         </div>
 
-                        <!-- Columna: Piromancias -->
                         <div class="bg-souls-darkest p-4 rounded-lg border border-souls-border">
                             <div class="flex justify-between items-center mb-3">
                                 <h4 class="font-cinzel text-sm font-bold text-souls-gold tracking-wider">Pyromancy (19)</h4>
                                 <span id="badgeProg_piromancias" class="text-xs font-bold text-souls-ash">0/19</span>
                             </div>
-                            <button class="w-full bg-souls-card hover:bg-souls-card/80 text-souls-ash text-xs py-1.5 rounded border border-souls-border mb-3 font-semibold uppercase tracking-wider transition-all duration-200" onclick="toggleSublist('sub_piromancias')">
+                            <button class="w-full bg-souls-card hover:bg-souls-card/80 text-souls-ash text-xs py-1.5 rounded border border-souls-border mb-3 font-semibold uppercase tracking-wider transition-all duration-200" onclick="window.toggleSublist('sub_piromancias')">
                                 Desplegar Piromancias
                             </button>
                             <div id="sub_piromancias" class="hidden flex flex-col gap-2 max-h-64 overflow-y-auto pr-1"></div>
                         </div>
 
-                        <!-- Columna: Milagros -->
                         <div class="bg-souls-darkest p-4 rounded-lg border border-souls-border">
                             <div class="flex justify-between items-center mb-3">
                                 <h4 class="font-cinzel text-sm font-bold text-souls-gold tracking-wider">Miracles (23)</h4>
                                 <span id="badgeProg_milagros" class="text-xs font-bold text-souls-ash">0/23</span>
                             </div>
-                            <button class="w-full bg-souls-card hover:bg-souls-card/80 text-souls-ash text-xs py-1.5 rounded border border-souls-border mb-3 font-semibold uppercase tracking-wider transition-all duration-200" onclick="toggleSublist('sub_milagros')">
+                            <button class="w-full bg-souls-card hover:bg-souls-card/80 text-souls-ash text-xs py-1.5 rounded border border-souls-border mb-3 font-semibold uppercase tracking-wider transition-all duration-200" onclick="window.toggleSublist('sub_milagros')">
                                 Desplegar Milagros
                             </button>
                             <div id="sub_milagros" class="hidden flex flex-col gap-2 max-h-64 overflow-y-auto pr-1"></div>
@@ -261,7 +233,6 @@
                     </div>
                 </section>
 
-                <!-- SECCIÓN: HONOR DE CABALLERO (ARMAS RARAS) -->
                 <section class="bg-souls-dark border border-souls-border p-6 rounded-lg">
                     <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-4 border-b border-souls-border pb-3">
                         <div>
@@ -271,33 +242,29 @@
                         <span id="badgeProg_armas" class="text-sm font-bold text-souls-gold">0/28</span>
                     </div>
 
-                    <!-- Buscador y filtro rápido -->
                     <div class="flex flex-col md:flex-row gap-3 mb-4">
                         <div class="relative flex-grow">
                             <span class="material-icons absolute left-3 top-2 text-souls-ash text-lg">search</span>
-                            <input type="text" id="searchWeapons" placeholder="Buscar armas por nombre..." oninput="filterWeapons()" class="w-full bg-souls-darkest border border-souls-border rounded pl-10 pr-4 py-1.5 text-sm focus:outline-none focus:border-souls-gold placeholder-souls-ash">
+                            <input type="text" id="searchWeapons" placeholder="Buscar armas por nombre..." oninput="window.filterWeapons()" class="w-full bg-souls-darkest border border-souls-border rounded pl-10 pr-4 py-1.5 text-sm focus:outline-none focus:border-souls-gold placeholder-souls-ash">
                         </div>
                         <div class="flex gap-2">
-                            <button class="bg-souls-card hover:bg-souls-card/80 border border-souls-border text-xs px-3 py-1.5 rounded text-souls-ash font-bold uppercase tracking-wider transition-all" onclick="filterWeapons('all')">Todas</button>
-                            <button class="bg-souls-card hover:bg-souls-card/80 border border-souls-border text-xs px-3 py-1.5 rounded text-souls-ash font-bold uppercase tracking-wider transition-all" onclick="filterWeapons('boss')">Jefes</button>
-                            <button class="bg-souls-card hover:bg-souls-card/80 border border-souls-border text-xs px-3 py-1.5 rounded text-souls-ash font-bold uppercase tracking-wider transition-all" onclick="filterWeapons('tails')">Colas</button>
+                            <button class="bg-souls-card hover:bg-souls-card/80 border border-souls-border text-xs px-3 py-1.5 rounded text-souls-ash font-bold uppercase tracking-wider transition-all" onclick="window.setWeaponFilter('all')">Todas</button>
+                            <button class="bg-souls-card hover:bg-souls-card/80 border border-souls-border text-xs px-3 py-1.5 rounded text-souls-ash font-bold uppercase tracking-wider transition-all" onclick="window.setWeaponFilter('boss')">Jefes</button>
+                            <button class="bg-souls-card hover:bg-souls-card/80 border border-souls-border text-xs px-3 py-1.5 rounded text-souls-ash font-bold uppercase tracking-wider transition-all" onclick="window.setWeaponFilter('tails')">Colas</button>
                         </div>
                     </div>
 
-                    <!-- Lista filtrable de armas raras -->
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-96 overflow-y-auto pr-2" id="list_armas"></div>
                 </section>
             </div>
         </main>
 
-        <!-- FOOTER -->
         <footer class="border-t border-souls-border mt-12 py-6 text-center text-souls-ash text-xs flex flex-col md:flex-row justify-between items-center gap-4">
             <p>© 2026 El Uriithuthii. Diseñado especialmente para la transmisión del Platino de Dark Souls Remastered.</p>
             <p class="text-souls-gold/60 font-semibold uppercase tracking-widest font-cinzel">Praise the Sun \`[T]/</p>
         </footer>
     </div>
 
-    <!-- MODAL DE NOTIFICACIÓN DE ÉXITO -->
     <div id="modalSuccess" class="fixed inset-0 bg-souls-darkest/90 backdrop-blur-sm z-[200] hidden flex items-center justify-center p-4">
         <div class="bg-souls-dark border-2 border-souls-gold p-8 max-w-md w-full text-center rounded-lg shadow-2xl shadow-souls-gold/20 relative">
             <h2 class="font-cinzel text-3xl font-black text-souls-gold tracking-widest uppercase mb-2">¡LLAMA ENLAZADA!</h2>
@@ -305,13 +272,12 @@
             <p class="text-gray-300 text-sm leading-relaxed mb-6">
                 Has superado todos los desafíos del juego base de Lordran. Todas las almas, pactos, magias y reliquias han sido consolidados. Eres el verdadero Señor de la Ceniza.
             </p>
-            <button class="bg-souls-gold text-souls-darkest hover:bg-souls-goldHover font-bold uppercase tracking-wider text-xs px-6 py-2.5 rounded transition-all duration-300" onclick="closeSuccessModal()">
+            <button class="bg-souls-gold text-souls-darkest hover:bg-souls-goldHover font-bold uppercase tracking-wider text-xs px-6 py-2.5 rounded transition-all duration-300" onclick="window.closeSuccessModal()">
                 Regresar al Nexo
             </button>
         </div>
     </div>
 
-    <!-- LÓGICA DE FIREBASE Y FUNCIONALIDAD EN VIVO -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
@@ -446,8 +412,7 @@
             ]
         };
 
-        // === CONFIGURACIÓN REAL DE FIREBASE EXTRAÍDA DEL USUARIO ===
-       const defaultFirebaseConfig = {
+        const defaultFirebaseConfig = {
             apiKey: "AIzaSyCqyKSWZMCyzV_gIzIuTC9imj9kwTcGpx8",
             authDomain: "web-interactiva-b0f46.firebaseapp.com",
             databaseURL: "https://web-interactiva-b0f46-default-rtdb.firebaseio.com",
@@ -458,23 +423,21 @@
             measurementId: "G-RSFPND4W50"
         };
 
-        const app = initializeApp(firebaseConfig);
+        const app = initializeApp(defaultFirebaseConfig);
         const db = getFirestore(app);
         const auth = getAuth(app);
-
-        // Variables de estado local de la sesión
-        let currentRole = 'viewer'; // 'viewer' | 'streamer'
+        
+        let currentRole = 'viewer'; 
         let hasStreamerAccess = false;
-        let globalCheckedItems = {}; // { item_id: boolean }
+        let globalCheckedItems = {}; 
+        let weaponFilter = 'all';
 
-        // Ruta de colección unificada para este artefacto
-        const appId = 'ds-platino-uriitv';
+        const appId = 'web-interactiva-b0f46';
         const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'trackerState', 'global');
-
+        
         // === PROCESOS DE AUTENTICACIÓN ===
         async function authenticate() {
             try {
-                // Autenticación anónima por defecto para que funcione sin registrarse
                 await signInAnonymously(auth);
                 setupRealtimeSync();
             } catch (err) {
@@ -499,261 +462,198 @@
 
         // Guardar cambios en Firestore
         async function saveItemState(id, checked) {
-            if (currentRole !== 'streamer' || !hasStreamerAccess) return;
-            
-            globalCheckedItems[id] = checked;
+            if (!hasStreamerAccess) return;
+            const updatedChecked = { ...globalCheckedItems, [id]: checked };
             try {
-                await updateDoc(docRef, {
-                    [`checked.${id}`]: checked
-                });
+                await updateDoc(docRef, { checked: updatedChecked });
             } catch (e) {
-                await setDoc(docRef, { checked: globalCheckedItems }, { merge: true });
+                console.error("Error al actualizar estado:", e);
             }
         }
 
-        // === RENDERIZACIÓN DINÁMICA DE LA INTERFAZ ===
-        function renderChecklists() {
-            // 1. Historia
-            const histContainer = document.getElementById("list_historia");
-            histContainer.innerHTML = "";
-            trackerData.historia.forEach(item => {
-                histContainer.appendChild(createItemDOM(item, 'historia'));
-            });
-
-            // 2. Pactos
-            const pactosContainer = document.getElementById("list_pactos");
-            pactosContainer.innerHTML = "";
-            trackerData.pactos.forEach(item => {
-                pactosContainer.appendChild(createItemDOM(item, 'pactos'));
-            });
-
-            // 3. Magias
-            renderSublist("sub_hechizos", trackerData.hechizos);
-            renderSublist("sub_piromancias", trackerData.piromancias);
-            renderSublist("sub_milagros", trackerData.milagros);
-
-            // 4. Armas Raras
-            renderArmas(trackerData.armas);
+        // === LOGICA DE INTERFAZ Y RENDERIZADO ===
+        function renderAllLists() {
+            renderGenericList('historia', 'list_historia');
+            renderGenericList('pactos', 'list_pactos');
+            renderGenericList('hechizos', 'sub_hechizos');
+            renderGenericList('piromancias', 'sub_piromancias');
+            renderGenericList('milagros', 'sub_milagros');
+            renderWeaponsList();
         }
 
-        function renderSublist(containerId, list) {
+        function renderGenericList(key, containerId) {
             const container = document.getElementById(containerId);
-            container.innerHTML = "";
-            list.forEach(item => {
-                container.appendChild(createItemDOM(item, 'magic'));
-            });
-        }
+            if (!container) return;
+            container.innerHTML = '';
 
-        function renderArmas(list) {
-            const container = document.getElementById("list_armas");
-            container.innerHTML = "";
-            list.forEach(item => {
-                container.appendChild(createItemDOM(item, 'weapon'));
-            });
-        }
-
-        function createItemDOM(item, category) {
-            const div = document.createElement("div");
-            div.className = "item bg-souls-card border border-souls-border p-3 rounded flex items-center gap-3 transition-all duration-200 select-none";
-            div.id = `card_${item.id}`;
-            div.dataset.category = category;
-            if (item.tag) div.dataset.tag = item.tag;
-            div.dataset.label = item.label.toLowerCase();
-
-            const checkbox = document.createElement("input");
-            checkbox.type = "checkbox";
-            checkbox.id = item.id;
-            checkbox.className = "w-4 h-4 rounded text-souls-gold focus:ring-0 focus:ring-offset-0 cursor-pointer bg-souls-darkest border-souls-border";
-            checkbox.disabled = (currentRole !== 'streamer' || !hasStreamerAccess);
-            
-            checkbox.addEventListener("change", (e) => {
-                saveItemState(item.id, e.target.checked);
-            });
-
-            const label = document.createElement("label");
-            label.htmlFor = item.id;
-            label.className = "text-xs md:text-sm font-semibold tracking-wide cursor-pointer flex-grow text-gray-300";
-            label.innerText = item.label;
-
-            div.addEventListener("click", (e) => {
-                if (currentRole === 'streamer' && hasStreamerAccess && e.target.tagName !== 'INPUT' && e.target.tagName !== 'LABEL') {
-                    checkbox.checked = !checkbox.checked;
-                    saveItemState(item.id, checkbox.checked);
-                }
-            });
-
-            if (item.tag === 'boss') {
-                const icon = document.createElement("span");
-                icon.className = "material-icons text-souls-gold text-xs shrink-0";
-                icon.innerText = "workspace_premium";
-                div.appendChild(icon);
-            } else if (item.tag === 'tails') {
-                const icon = document.createElement("span");
-                icon.className = "material-icons text-souls-fire text-xs shrink-0";
-                icon.innerText = "content_cut";
-                div.appendChild(icon);
-            }
-
-            div.prepend(checkbox);
-            div.appendChild(label);
-            return div;
-        }
-
-        // === FILTROS Y BUSCADORES DE ARMAS ===
-        window.filterWeapons = function(filterType = 'all') {
-            const query = document.getElementById("searchWeapons").value.toLowerCase();
-            const weaponCards = document.querySelectorAll("#list_armas .item");
-
-            weaponCards.forEach(card => {
-                const label = card.dataset.label;
-                const tag = card.dataset.tag;
+            trackerData[key].forEach(item => {
+                const isChecked = !!globalCheckedItems[item.id];
+                const itemDiv = document.createElement('div');
+                itemDiv.className = `flex items-center gap-3 p-2.5 rounded border border-souls-border bg-souls-card/40 transition-all ${isChecked ? 'checked-item' : ''}`;
                 
-                const matchesSearch = label.includes(query);
-                const matchesFilter = filterType === 'all' || tag === filterType;
+                itemDiv.innerHTML = `
+                    <input type="checkbox" id="${item.id}" ${isChecked ? 'checked' : ''} ${!hasStreamerAccess ? 'disabled' : ''} 
+                        class="w-4 h-4 rounded border-souls-border text-souls-gold focus:ring-0 focus:ring-offset-0 bg-souls-darkest cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed">
+                    <label for="${item.id}" class="text-sm select-none cursor-pointer text-gray-300 ${isChecked ? 'line-through text-souls-ash' : ''} disabled:cursor-not-allowed">${item.label}</label>
+                `;
 
-                if (matchesSearch && matchesFilter) {
-                    card.classList.remove("hidden");
-                } else {
-                    card.classList.add("hidden");
-                }
-            });
-        };
-
-        window.toggleSublist = function(id) {
-            const sub = document.getElementById(id);
-            sub.classList.toggle("hidden");
-        };
-
-        // === ACTUALIZACIÓN DEL ESTADO DE LA INTERFAZ ===
-        function updateUIState() {
-            let totalChecked = 0;
-            let totalCount = 0;
-
-            for (const category in trackerData) {
-                let catChecked = 0;
-                const catTotal = trackerData[category].length;
-
-                trackerData[category].forEach(item => {
-                    const isChecked = globalCheckedItems[item.id] || false;
-                    const checkbox = document.getElementById(item.id);
-                    const card = document.getElementById(`card_${item.id}`);
-
-                    if (checkbox) checkbox.checked = isChecked;
-                    if (card) {
-                        if (isChecked) {
-                            card.classList.add("checked-item");
-                        } else {
-                            card.classList.remove("checked-item");
-                        }
-                    }
-
-                    if (isChecked) {
-                        catChecked++;
-                        totalChecked++;
-                    }
-                    totalCount++;
+                const checkbox = itemDiv.querySelector('input');
+                checkbox.addEventListener('change', (e) => {
+                    saveItemState(item.id, e.target.checked);
                 });
 
-                const badge = document.getElementById(`badgeProg_${category}`);
-                if (badge) {
-                    badge.innerText = `${catChecked}/${catTotal}`;
-                }
-            }
+                container.appendChild(itemDiv);
+            });
+        }
 
-            const percent = totalCount > 0 ? Math.round((totalChecked / totalCount) * 100) : 0;
-            
-            document.getElementById("txtProgressPercent").innerText = `${percent}%`;
-            document.getElementById("barProgress").style.width = `${percent}%`;
-            document.getElementById("txtProgressFraction").innerText = `${totalChecked} de ${totalCount} hitos completados`;
+        function renderWeaponsList() {
+            const container = document.getElementById('list_armas');
+            if (!container) return;
+            container.innerHTML = '';
 
-            const flameGroup = document.getElementById("bonfireFlames");
-            const glow = document.getElementById("bonfireGlow");
-            
-            if (flameGroup && glow) {
-                const scale = 0.4 + (percent / 100) * 0.8;
-                flameGroup.style.transform = `scale(${scale})`;
+            const searchVal = document.getElementById('searchWeapons')?.value.toLowerCase() || '';
+
+            trackerData.armas.forEach(item => {
+                if (weaponFilter !== 'all' && item.tag !== weaponFilter) return;
+                if (searchVal && !item.label.toLowerCase().includes(searchVal)) return;
+
+                const isChecked = !!globalCheckedItems[item.id];
+                const itemDiv = document.createElement('div');
+                itemDiv.className = `flex items-center gap-3 p-2.5 rounded border border-souls-border bg-souls-card/40 transition-all ${isChecked ? 'checked-item' : ''}`;
                 
-                const glowIntensity = 10 + (percent / 100) * 30;
-                const opacity = 0.05 + (percent / 100) * 0.4;
-                glow.style.boxShadow = `0 0 ${glowIntensity}px rgba(230, 92, 0, ${opacity})`;
+                itemDiv.innerHTML = `
+                    <input type="checkbox" id="${item.id}" ${isChecked ? 'checked' : ''} ${!hasStreamerAccess ? 'disabled' : ''} 
+                        class="w-4 h-4 rounded border-souls-border text-souls-gold focus:ring-0 focus:ring-offset-0 bg-souls-darkest cursor-pointer disabled:opacity-50">
+                    <div class="flex flex-col">
+                        <label for="${item.id}" class="text-sm font-medium select-none cursor-pointer text-gray-300 ${isChecked ? 'line-through text-souls-ash' : ''}">${item.label}</label>
+                        <span class="text-[10px] uppercase font-bold tracking-wider ${item.tag === 'boss' ? 'text-souls-gold/70' : item.tag === 'tails' ? 'text-souls-fire/70' : 'text-souls-ash'}">${item.tag}</span>
+                    </div>
+                `;
+
+                const checkbox = itemDiv.querySelector('input');
+                checkbox.addEventListener('change', (e) => {
+                    saveItemState(item.id, e.target.checked);
+                });
+
+                container.appendChild(itemDiv);
+            });
+        }
+
+        function updateUIState() {
+            renderAllLists();
+
+            // Calcular contadores individuales
+            const countChecked = (list) => list.filter(item => globalCheckedItems[item.id]).length;
+
+            const hChecked = countChecked(trackerData.historia);
+            const pChecked = countChecked(trackerData.pactos);
+            const heChecked = countChecked(trackerData.hechizos);
+            const piChecked = countChecked(trackerData.piromancias);
+            const miChecked = countChecked(trackerData.milagros);
+            const arChecked = countChecked(trackerData.armas);
+
+            document.getElementById('badgeProg_historia').innerText = `${hChecked}/${trackerData.historia.length}`;
+            document.getElementById('badgeProg_pactos').innerText = `${pChecked}/${trackerData.pactos.length}`;
+            document.getElementById('badgeProg_hechizos').innerText = `${heChecked}/${trackerData.hechizos.length}`;
+            document.getElementById('badgeProg_piromancias').innerText = `${piChecked}/${trackerData.piromancias.length}`;
+            document.getElementById('badgeProg_milagros').innerText = `${miChecked}/${trackerData.milagros.length}`;
+            document.getElementById('badgeProg_armas').innerText = `${arChecked}/${trackerData.armas.length}`;
+
+            // Progreso total global (113 en total)
+            const totalItems = trackerData.historia.length + trackerData.pactos.length + trackerData.hechizos.length + trackerData.piromancias.length + trackerData.milagros.length + trackerData.armas.length;
+            const totalChecked = hChecked + pChecked + heChecked + piChecked + miChecked + arChecked;
+            const percentage = Math.round((totalChecked / totalItems) * 100) || 0;
+
+            document.getElementById('txtProgressPercent').innerText = `${percentage}%`;
+            document.getElementById('txtProgressFraction').innerText = `${totalChecked} de ${totalItems} hitos completados`;
+            document.getElementById('barProgress').style.width = `${percentage}%`;
+
+            // Efecto visual dinámico de Hoguera (Brillo aumenta con el progreso)
+            const glow = document.getElementById('bonfireGlow');
+            if (glow) {
+                glow.style.transform = `scale(${1 + (percentage / 100)})`;
+                glow.style.opacity = `${0.1 + (percentage / 150)}`;
             }
 
-            if (percent === 100) {
-                document.getElementById("modalSuccess").classList.remove("hidden");
+            // Mostrar modal de éxito al 100%
+            if (totalChecked === totalItems && totalItems > 0) {
+                document.getElementById('modalSuccess').classList.remove('hidden');
             }
         }
 
-        // === ROLES Y SEGURIDAD DEL STREAMER ===
+        // === FUNCIONES EXPUESTAS AL ENTORNO GLOBAL (WINDOW) ===
         window.setRole = function(role) {
             currentRole = role;
-            const btnViewer = document.getElementById("btnRoleViewer");
-            const btnStreamer = document.getElementById("btnRoleStreamer");
-            const configArea = document.getElementById("streamerConfigArea");
-            const resetBtn = document.getElementById("btnResetAll");
-            const notice = document.getElementById("roleNotice");
+            const btnViewer = document.getElementById('btnRoleViewer');
+            const btnStreamer = document.getElementById('btnRoleStreamer');
+            const configArea = document.getElementById('streamerConfigArea');
+            const notice = document.getElementById('roleNotice');
+            const btnReset = document.getElementById('btnResetAll');
 
             if (role === 'streamer') {
-                btnStreamer.className = "px-3 py-1.5 rounded text-xs font-bold tracking-wider uppercase transition-all duration-300 bg-souls-gold text-souls-darkest shadow-lg shadow-souls-gold/20";
-                btnViewer.className = "px-3 py-1.5 rounded text-xs font-bold tracking-wider uppercase transition-all duration-300 bg-souls-card text-souls-ash hover:text-gray-200 border border-souls-border";
-                configArea.classList.remove("hidden");
-                notice.classList.add("hidden");
+                btnStreamer.className = "px-3 py-1.5 rounded text-xs font-bold tracking-wider uppercase transition-all bg-souls-gold text-souls-darkest shadow-lg shadow-souls-gold/20";
+                btnViewer.className = "px-3 py-1.5 rounded text-xs font-bold tracking-wider uppercase transition-all bg-souls-border text-souls-ash";
+                configArea.classList.remove('hidden');
             } else {
-                btnViewer.className = "px-3 py-1.5 rounded text-xs font-bold tracking-wider uppercase transition-all duration-300 bg-souls-gold text-souls-darkest shadow-lg shadow-souls-gold/20";
-                btnStreamer.className = "px-3 py-1.5 rounded text-xs font-bold tracking-wider uppercase transition-all duration-300 bg-souls-card text-souls-ash hover:text-gray-200 border border-souls-border";
-                configArea.classList.add("hidden");
-                resetBtn.classList.add("hidden");
-                notice.classList.remove("hidden");
+                btnViewer.className = "px-3 py-1.5 rounded text-xs font-bold tracking-wider uppercase transition-all bg-souls-gold text-souls-darkest shadow-lg shadow-souls-gold/20";
+                btnStreamer.className = "px-3 py-1.5 rounded text-xs font-bold tracking-wider uppercase transition-all bg-souls-border text-souls-ash";
+                configArea.classList.add('hidden');
                 hasStreamerAccess = false;
-                disableInputsOnUI();
+                notice.innerText = "Viendo en modo de espectador. Los cambios están bloqueados.";
+                notice.className = "text-xs text-souls-ash italic";
+                btnReset.classList.add('hidden');
+                updateUIState();
             }
         };
 
         window.verifyAndAuthStreamer = function() {
-            const pin = document.getElementById("inputPIN").value;
-            if (pin === "urii") {
+            const pin = document.getElementById('inputPIN').value;
+            const notice = document.getElementById('roleNotice');
+            const btnReset = document.getElementById('btnResetAll');
+
+            // PIN por defecto simple de demostración
+            if (pin === '1234') { 
                 hasStreamerAccess = true;
-                document.getElementById("btnResetAll").classList.remove("hidden");
-                enableInputsOnUI();
+                notice.innerText = "¡Acceso de Streamer Concedido! Puedes gestionar la lista.";
+                notice.className = "text-xs text-green-500 font-bold uppercase tracking-wider";
+                btnReset.classList.remove('hidden');
+                updateUIState();
             } else {
-                hasStreamerAccess = false;
-                disableInputsOnUI();
+                alert("PIN incorrecto. Sigue como espectador.");
             }
         };
 
-        function enableInputsOnUI() {
-            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-                checkbox.disabled = false;
-            });
-            document.querySelectorAll('.item').forEach(card => {
-                card.style.cursor = 'pointer';
-            });
-        }
+        window.toggleSublist = function(id) {
+            const el = document.getElementById(id);
+            if (el) el.classList.toggle('hidden');
+        };
 
-        function disableInputsOnUI() {
-            document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
-                checkbox.disabled = true;
-            });
-            document.querySelectorAll('.item').forEach(card => {
-                card.style.cursor = 'default';
-            });
-        }
+        window.setWeaponFilter = function(filter) {
+            weaponFilter = filter;
+            renderWeaponsList();
+        };
+
+        window.filterWeapons = function() {
+            renderWeaponsList();
+        };
 
         window.confirmResetAll = async function() {
-            globalCheckedItems = {};
-            await setDoc(docRef, { checked: {} });
-            updateUIState();
+            if (!hasStreamerAccess) return;
+            if (confirm("¿Estás seguro de que deseas vaciar todos los hitos del platino? Esta acción no se puede deshacer.")) {
+                try {
+                    await setDoc(docRef, { checked: {} });
+                } catch (e) {
+                    console.error(e);
+                }
+            }
         };
 
         window.closeSuccessModal = function() {
-            document.getElementById("modalSuccess").classList.add("hidden");
+            document.getElementById('modalSuccess').classList.add('hidden');
         };
 
-        // === INICIO AL CARGAR LA PÁGINA ===
-        window.addEventListener("DOMContentLoaded", () => {
-            renderChecklists();
-            authenticate();
-            setRole('viewer');
-        });
+        // Inicializar el sistema al cargar la página
+        authenticate();
     </script>
 </body>
 </html>
