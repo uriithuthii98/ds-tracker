@@ -300,7 +300,6 @@
 
         // ========================================
         // DECLARAR FUNCIONES GLOBALES PRIMERO
-        // Esto asegura que estén disponibles aunque falle Firebase
         // ========================================
 
         window.toggleSublist = function(id) {
@@ -308,7 +307,6 @@
                 const el = document.getElementById(id);
                 if (el) {
                     el.classList.toggle('hidden');
-                    console.log(`✓ Expandir/contraer: ${id}`);
                 }
             } catch (e) {
                 console.error(`Error toggle: ${e.message}`);
@@ -317,7 +315,6 @@
 
         window.setRole = function(role) {
             try {
-                console.log(`🔧 Modo: ${role}`);
                 currentRole = role;
                 const btnViewer = document.getElementById('btnRoleViewer');
                 const btnStreamer = document.getElementById('btnRoleStreamer');
@@ -384,7 +381,6 @@
                     if (welcomeText) welcomeText.innerHTML = `¡Modo <strong class="text-souls-gold">Streamer Autorizado</strong> activo! Los cambios se guardarán automáticamente en vivo.`;
                     document.getElementById('btnResetAll')?.classList.remove('hidden');
                     updateUIState();
-                    console.log('✅ Streamer autorizado');
                 } else {
                     alert("PIN Incorrecto. Has fallado en encender la llama.");
                 }
@@ -395,8 +391,9 @@
 
         window.confirmResetAll = function() {
             try {
-                if (confirm("¿Estás seguro?")) {
+                if (confirm("¿Estás seguro de que quieres reiniciar todo tu progreso? Esta acción no se puede deshacer.")) {
                     globalCheckedItems = {};
+                    localStorage.removeItem('dsTrackerProgress'); // <-- BORRAMOS DE LOCALSTORAGE
                     updateUIState();
                 }
             } catch (e) {
@@ -411,8 +408,6 @@
                 console.error(`Error closeSuccessModal: ${e.message}`);
             }
         };
-
-        console.log('✅ Funciones globales listas');
 
         // ========================================
         // DATOS DEL TRACKER
@@ -586,6 +581,18 @@
         // FUNCIONES DEL TRACKER
         // ========================================
 
+        // NUEVA FUNCIÓN: Cargar datos guardados
+        function loadSavedProgress() {
+            try {
+                const savedData = localStorage.getItem('dsTrackerProgress');
+                if (savedData) {
+                    globalCheckedItems = JSON.parse(savedData);
+                }
+            } catch (e) {
+                console.error("Error cargando los datos guardados:", e);
+            }
+        }
+
         function renderGenericList(key, containerId) {
             const container = document.getElementById(containerId);
             if (!container) return;
@@ -683,7 +690,7 @@
                 bonfireGlow.style.opacity = `${0.1 + (percent / 100) * 0.6}`;
             }
 
-            if (percent === 100) {
+            if (percent === 100 && totalItems > 0) {
                 document.getElementById('modalSuccess')?.classList.remove('hidden');
             }
         }
@@ -695,19 +702,27 @@
 
         function saveItemState(id, checked) {
             if (!hasStreamerAccess) {
-                console.warn('⚠️ Sin acceso de streamer');
                 return;
             }
+            // Actualizamos en la variable
             globalCheckedItems[id] = checked;
+            
+            // GUARDAMOS EN LOCALSTORAGE
+            try {
+                localStorage.setItem('dsTrackerProgress', JSON.stringify(globalCheckedItems));
+            } catch (e) {
+                console.error("No se pudo guardar el progreso localmente.", e);
+            }
+
             updateUIState();
-            console.log(`✓ Guardado: ${id} = ${checked}`);
         }
 
         // ========================================
         // INICIALIZAR
         // ========================================
 
-        console.log('🟢 Tracker listo');
+        // Primero cargamos lo guardado, luego renderizamos
+        loadSavedProgress();
         updateUIState();
     </script>
 </body>
