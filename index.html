@@ -81,6 +81,23 @@
             background-color: rgba(223, 155, 40, 0.05) !important;
             border-color: rgba(223, 155, 40, 0.4) !important;
         }
+
+        /* Botones siempre interactivos */
+        button:not(:disabled) {
+            cursor: pointer !important;
+            transition: all 0.2s ease;
+        }
+
+        button:not(:disabled):hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(223, 155, 40, 0.3);
+        }
+
+        /* Input deshabilitado (solo checkboxes en modo espectador) */
+        input:disabled {
+            opacity: 0.5 !important;
+            cursor: not-allowed !important;
+        }
     </style>
 </head>
 <body class="bg-souls-darkest text-gray-200 font-sans min-h-screen selection:bg-souls-gold selection:text-souls-darkest">
@@ -154,7 +171,7 @@
                     
                     <div id="welcomeMessageBox" class="bg-souls-darkest p-4 rounded-lg border border-l-4 border-souls-ash transition-all duration-300">
                         <p id="welcomeText" class="text-xs text-souls-ash font-medium">
-                            Estás viendo la lista en <strong class="text-souls-gold">Modo Espectador</strong>. Los cambios en los hitos están bloqueados.
+                            ✓ <strong class="text-souls-gold">Modo Espectador</strong> - Puedes ver y expandir todas las listas, pero no puedes editar.
                         </p>
                     </div>
                 </div>
@@ -634,7 +651,7 @@
                 btnReset?.classList.add('hidden');
                 
                 welcomeBox?.classList.replace('border-souls-gold', 'border-souls-ash');
-                if (welcomeText) welcomeText.innerHTML = `Estás viendo la lista en <strong class="text-souls-gold">Modo Espectador</strong>. Los cambios en los hitos están bloqueados.`;
+                if (welcomeText) welcomeText.innerHTML = `✓ <strong class="text-souls-gold">Modo Espectador</strong> - Puedes ver y expandir todas las listas, pero no puedes editar.`;
                 if (roleNotice) roleNotice.innerText = "Viendo en modo de espectador. Los cambios están bloqueados.";
                 updateUIState();
             }
