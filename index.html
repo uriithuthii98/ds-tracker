@@ -13,6 +13,22 @@
     
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
+    <!-- Firebase -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+        import { getDatabase, ref, set, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
+
+        // Exponer funciones globalmente para que las use el resto del código
+        window.initializeApp = initializeApp;
+        window.getAuth = getAuth;
+        window.getDatabase = getDatabase;
+        window.ref = ref;
+        window.set = set;
+        window.onValue = onValue;
+        window.signInAnonymously = signInAnonymously;
+    </script>
+
     <script>
         tailwind.config = {
             theme: {
