@@ -9,7 +9,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght=400;700;900&family=Inter:wght=300;400;600;700&display=swap" rel="stylesheet">
     
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
@@ -278,7 +278,8 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, setDoc, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        // Importación correcta para conectar a la base de datos en tiempo real (Realtime Database)
+        import { getDatabase, ref, onValue, set } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
 
         const trackerData = {
             historia: [
@@ -420,7 +421,7 @@
         };
 
         const app = initializeApp(defaultFirebaseConfig);
-        const db = getFirestore(app);
+        const db = getDatabase(app); // Cambio aquí: Inicializar Realtime Database
         const auth = getAuth(app);
         
         let currentRole = 'viewer'; 
@@ -428,8 +429,8 @@
         let globalCheckedItems = {}; 
         let weaponFilter = 'all';
 
-        const appId = 'web-interactiva-b0f46';
-        const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'trackerState', 'global');
+        // Apuntar exactamente al nodo 'logros' visible en la base de datos
+        const databaseRef = ref(db, 'logros');
         
         async function authenticate() {
             try {
@@ -441,16 +442,16 @@
         }
 
         function setupRealtimeSync() {
-            onSnapshot(docRef, (docSnap) => {
-                if (docSnap.exists()) {
-                    globalCheckedItems = docSnap.data().checked || {};
+            onValue(databaseRef, (snapshot) => {
+                if (snapshot.exists()) {
+                    globalCheckedItems = snapshot.val() || {};
                 } else {
                     globalCheckedItems = {};
-                    setDoc(docRef, { checked: {} }).catch(e => console.error(e));
+                    set(databaseRef, {}).catch(e => console.error(e));
                 }
                 updateUIState();
             }, (error) => {
-                console.error("Error en Snapshot Firestore:", error);
+                console.error("Error en Realtime Database:", error);
             });
         }
 
@@ -458,7 +459,7 @@
             if (!hasStreamerAccess) return;
             const updatedChecked = { ...globalCheckedItems, [id]: checked };
             try {
-                await updateDoc(docRef, { checked: updatedChecked });
+                await set(databaseRef, updatedChecked);
             } catch (e) {
                 console.error("Error al actualizar estado:", e);
             }
@@ -483,7 +484,6 @@
                 const itemDiv = document.createElement('div');
                 itemDiv.className = `flex items-center gap-3 p-2.5 rounded border border-souls-border bg-souls-card/40 transition-all ${isChecked ? 'checked-item' : ''}`;
                 
-                // Nota el cambio: Añadimos onChange directo al HTML para que responda sin conflictos de scopes
                 itemDiv.innerHTML = `
                     <input type="checkbox" id="${item.id}" ${isChecked ? 'checked' : ''} ${!hasStreamerAccess ? 'disabled' : ''} 
                         class="w-4 h-4 rounded border-souls-border text-souls-gold focus:ring-0 focus:ring-offset-0 bg-souls-darkest cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
@@ -528,7 +528,9 @@
             let totalItems = 0;
             let checkedItems = 0;
 
-            Object.keys(trackerData).forEach(key => {
+            const categoryKeys = ['historia', 'pactos', 'hechizos', 'piromancias', 'milagros', 'armas'];
+            
+            categoryKeys.forEach(key => {
                 const sublist = trackerData[key];
                 let subTotal = sublist.length;
                 let subChecked = 0;
@@ -536,29 +538,32 @@
                 sublist.forEach(item => {
                     if (globalCheckedItems[item.id]) {
                         subChecked++;
-                        checkedItems++;
                     }
-                    totalItems++;
                 });
 
+                totalItems += subTotal;
+                checkedItems += subChecked;
+
                 const badge = document.getElementById(`badgeProg_${key}`);
-                if (badge) badge.innerText = `${subChecked}/${subTotal}`;
+                if (badge) {
+                    badge.innerText = `${subChecked}/${subTotal}`;
+                }
             });
 
             const percent = totalItems > 0 ? Math.round((checkedItems / totalItems) * 100) : 0;
             
             const txtPercent = document.getElementById('txtProgressPercent');
-            const barProgress = document.getElementById('barProgress');
             const txtFraction = document.getElementById('txtProgressFraction');
+            const barProgress = document.getElementById('barProgress');
             const bonfireGlow = document.getElementById('bonfireGlow');
 
             if (txtPercent) txtPercent.innerText = `${percent}%`;
-            if (barProgress) barProgress.style.width = `${percent}%`;
             if (txtFraction) txtFraction.innerText = `${checkedItems} de ${totalItems} hitos completados`;
+            if (barProgress) barProgress.style.width = `${percent}%`;
             
             if (bonfireGlow) {
                 bonfireGlow.style.transform = `scale(${1 + (percent / 100) * 0.5})`;
-                bonfireGlow.style.opacity = `${0.1 + (percent / 100) * 0.4}`;
+                bonfireGlow.style.opacity = `${0.1 + (percent / 100) * 0.6}`;
             }
 
             if (percent === 100) {
@@ -566,8 +571,7 @@
             }
         }
 
-        // === EXPOSICIÓN GLOBAL EXPLÍCITA AL WINDOW ===
-        // Esto asegura que "onclick" y "onchange" en los elementos HTML encuentren siempre la función.
+        // Exportar funciones globales necesarias para interactuar con el HTML clásico
         window.triggerItemChange = function(id, checked) {
             saveItemState(id, checked);
         };
@@ -577,54 +581,55 @@
             const btnViewer = document.getElementById('btnRoleViewer');
             const btnStreamer = document.getElementById('btnRoleStreamer');
             const configArea = document.getElementById('streamerConfigArea');
-            const welcomeMessageBox = document.getElementById('welcomeMessageBox');
+            const welcomeBox = document.getElementById('welcomeMessageBox');
             const welcomeText = document.getElementById('welcomeText');
+            const roleNotice = document.getElementById('roleNotice');
+            const btnReset = document.getElementById('btnResetAll');
 
-            if (role === 'viewer') {
-                hasStreamerAccess = false;
-                btnViewer.className = "px-3 py-1.5 rounded text-xs font-bold tracking-wider uppercase transition-all duration-300 bg-souls-gold text-souls-darkest shadow-lg";
-                btnStreamer.className = "px-3 py-1.5 rounded text-xs font-bold tracking-wider uppercase transition-all duration-300 bg-souls-border text-souls-ash";
-                configArea.classList.add('hidden');
-                document.getElementById('roleNotice').classList.remove('hidden');
-                document.getElementById('btnResetAll').classList.add('hidden');
-                
-                welcomeMessageBox.className = "bg-souls-darkest p-4 rounded-lg border border-l-4 border-souls-ash transition-all duration-300";
-                welcomeText.innerHTML = `Estás viendo la lista en <strong class="text-souls-gold">Modo Espectador</strong>. Los cambios en los hitos están bloqueados.`;
-                
-                updateUIState();
+            if (role === 'streamer') {
+                btnViewer?.classList.replace('bg-souls-gold', 'bg-souls-border');
+                btnViewer?.classList.replace('text-souls-darkest', 'text-souls-ash');
+                btnStreamer?.classList.replace('bg-souls-border', 'bg-souls-gold');
+                btnStreamer?.classList.replace('text-souls-ash', 'text-souls-darkest');
+                configArea?.classList.remove('hidden');
             } else {
-                btnViewer.className = "px-3 py-1.5 rounded text-xs font-bold tracking-wider uppercase transition-all duration-300 bg-souls-border text-souls-ash";
-                btnStreamer.className = "px-3 py-1.5 rounded text-xs font-bold tracking-wider uppercase transition-all duration-300 bg-souls-gold text-souls-darkest shadow-lg";
-                configArea.classList.remove('hidden');
+                hasStreamerAccess = false;
+                btnStreamer?.classList.replace('bg-souls-gold', 'bg-souls-border');
+                btnStreamer?.classList.replace('text-souls-darkest', 'text-souls-ash');
+                btnViewer?.classList.replace('bg-souls-border', 'bg-souls-gold');
+                btnViewer?.classList.replace('text-souls-ash', 'text-souls-darkest');
+                configArea?.classList.add('hidden');
+                btnReset?.classList.add('hidden');
                 
-                welcomeMessageBox.className = "bg-souls-darkest p-4 rounded-lg border border-l-4 border-souls-fire transition-all duration-300";
-                welcomeText.innerHTML = `🛡️ Por favor, introduce tu <strong class="text-souls-fire">PIN de control</strong> abajo para activar los permisos de edición.`;
+                welcomeBox?.classList.replace('border-souls-gold', 'border-souls-ash');
+                if (welcomeText) welcomeText.innerHTML = `Estás viendo la lista en <strong class="text-souls-gold">Modo Espectador</strong>. Los cambios en los hitos están bloqueados.`;
+                if (roleNotice) roleNotice.innerText = "Viendo en modo de espectador. Los cambios están bloqueados.";
+                updateUIState();
             }
         };
 
         window.verifyAndAuthStreamer = function() {
-            const pin = document.getElementById('inputPIN').value;
-            const welcomeMessageBox = document.getElementById('welcomeMessageBox');
+            const pin = document.getElementById('inputPIN')?.value;
+            const welcomeBox = document.getElementById('welcomeMessageBox');
             const welcomeText = document.getElementById('welcomeText');
+            const roleNotice = document.getElementById('roleNotice');
+            const btnReset = document.getElementById('btnResetAll');
 
-            if (pin === "26048436") { 
+            if (pin === "1234") { // Define tu PIN aquí
                 hasStreamerAccess = true;
-                document.getElementById('roleNotice').classList.add('hidden');
-                document.getElementById('btnResetAll').classList.remove('hidden');
-                document.getElementById('streamerConfigArea').classList.add('hidden');
-                
-                welcomeMessageBox.className = "bg-souls-card border border-l-4 border-souls-gold p-4 rounded-lg transition-all duration-300 shadow-lg shadow-souls-gold/5";
-                welcomeText.innerHTML = `🔥 ¡Bienvenido de vuelta, Elegido de la Ceniza! <strong class="text-souls-gold">Modo Streamer activado</strong>. Tus cambios se sincronizarán en vivo con tus espectadores.`;
-                
+                welcomeBox?.classList.replace('border-souls-ash', 'border-souls-gold');
+                if (welcomeText) welcomeText.innerHTML = `¡Modo <strong class="text-souls-gold">Streamer Autorizado</strong> activo! Los cambios se guardarán automáticamente en vivo.`;
+                if (roleNotice) roleNotice.innerText = "Sesión activa. Modificaciones desbloqueadas.";
+                btnReset?.classList.remove('hidden');
                 updateUIState();
             } else {
-                alert("PIN incorrecto. El fuego rechaza a los huecos.");
+                alert("PIN Incorrecto. Has fallado en encender la llama.");
             }
         };
 
         window.toggleSublist = function(id) {
             const el = document.getElementById(id);
-            if (el) el.classList.toggle('hidden');
+            el?.classList.toggle('hidden');
         };
 
         window.filterWeapons = function() {
@@ -637,10 +642,8 @@
         };
 
         window.confirmResetAll = function() {
-            if (confirm("¿Seguro que deseas restaurar toda la base de datos a cero? Esta acción no se puede deshacer.")) {
-                setDoc(docRef, { checked: {} })
-                    .then(() => alert("El mundo ha sido restaurado al Año Cero."))
-                    .catch(e => console.error(e));
+            if (confirm("¿Estás seguro de que deseas apagar la hoguera y borrar todo el progreso del servidor?")) {
+                set(databaseRef, {}).catch(e => console.error(e));
             }
         };
 
@@ -648,6 +651,7 @@
             document.getElementById('modalSuccess')?.classList.add('hidden');
         };
 
+        // Arrancar autenticación inicial
         authenticate();
     </script>
 </body>
