@@ -90,10 +90,10 @@
         <header class="border-b border-souls-border pb-6 mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
             <div class="text-center md:text-left">
                 <h1 class="font-cinzel text-3xl md:text-4xl lg:text-5xl font-black text-souls-gold tracking-widest uppercase">
-                    El Alma Oscura
+                    Dark Souls
                 </h1>
                 <p class="text-souls-ash text-sm tracking-wider font-semibold uppercase mt-1">
-                    Live Platinum Tracker &amp; Checklist de UriiTV
+                    Live Platinum Tracker &amp; Checklist de Uriithuthii
                 </p>
             </div>
 
@@ -131,7 +131,7 @@
                         <path d="M50 90 L50 40 M45 48 L55 48" stroke="#7d7469" stroke-width="3" stroke-linecap="round"/>
                         <polygon points="48,38 52,38 50,42" fill="#7d7469" />
                         
-                        <!-- Llama Dinámica (Compuesta de varias capas SVG que escalan según el progreso) -->
+                        <!-- Llama Dinámica -->
                         <g id="bonfireFlames" class="flame-particle">
                             <!-- Llama externa roja -->
                             <path d="M50 82 C35 75 38 45 50 25 C62 45 65 75 50 82 Z" fill="#e63900" opacity="0.8"/>
@@ -160,7 +160,7 @@
                 <div>
                     <h3 class="font-cinzel text-xl font-bold text-souls-gold tracking-wider mb-2">Sincronización en Directo</h3>
                     <p class="text-sm text-gray-400 leading-relaxed mb-4">
-                        ¡Bienvenido al Nexo de Control! Esta web utiliza almacenamiento en tiempo real. Al abrir este enlace en tu OBS o en tu navegador móvil, cualquier cambio que realices se guardará automáticamente.
+                        ¡Bienvenido al Nexo de Control! Esta web utiliza Cloud Firestore para sincronizarse en tiempo real. Al abrir este enlace en tu OBS o compartirlo con tus espectadores, el progreso se reflejará al instante.
                     </p>
                     
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
@@ -170,7 +170,7 @@
                         </div>
                         <div class="bg-souls-darkest p-4 rounded-lg border border-souls-border">
                             <h4 class="text-xs font-bold uppercase tracking-wider text-souls-fire mb-1">Tu Control de Streamer</h4>
-                            <p class="text-xs text-souls-ash">Activa el "Modo Streamer" a la derecha, define tu PIN secreto y podrás marcar los hitos desde tu celular o monitor.</p>
+                            <p class="text-xs text-souls-ash">Activa el "Modo Streamer" a la derecha, define tu PIN secreto y podrás marcar los hitos manualmente si lo requieres.</p>
                         </div>
                     </div>
                 </div>
@@ -192,18 +192,15 @@
         <!-- GRID DE CHECKLISTS -->
         <main class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
-            <!-- COLUMNA IZQUIERDA: HISTORIA Y PACTOS (ANCHO: 4/12) -->
+            <!-- COLUMNA IZQUIERDA: HISTORIA Y PACTOS -->
             <div class="lg:col-span-4 flex flex-col gap-6">
-                
                 <!-- SECCIÓN: JEFES E HISTORIA -->
                 <section class="bg-souls-dark border border-souls-border p-6 rounded-lg">
                     <div class="flex justify-between items-center mb-4 border-b border-souls-border pb-2">
                         <h3 class="font-cinzel text-lg font-bold text-souls-gold tracking-widest uppercase">Historia y Jefes</h3>
                         <span id="badgeProg_historia" class="text-xs font-bold text-souls-ash">0/10</span>
                     </div>
-                    <div class="flex flex-col gap-2.5" id="list_historia">
-                        <!-- JS inyectará los elementos aquí -->
-                    </div>
+                    <div class="flex flex-col gap-2.5" id="list_historia"></div>
                 </section>
 
                 <!-- SECCIÓN: PACTOS -->
@@ -213,16 +210,13 @@
                         <span id="badgeProg_pactos" class="text-xs font-bold text-souls-ash">0/9</span>
                     </div>
                     <p class="text-xs text-souls-ash mb-3 italic">Basta con unirse al menos una vez para registrar el hito del logro.</p>
-                    <div class="flex flex-col gap-2.5" id="list_pactos">
-                        <!-- JS inyectará los elementos aquí -->
-                    </div>
+                    <div class="flex flex-col gap-2.5" id="list_pactos"></div>
                 </section>
             </div>
 
-            <!-- COLUMNA DERECHA: MAGIAS Y ARMAS RARAS (ANCHO: 8/12) -->
+            <!-- COLUMNA DERECHA: MAGIAS Y ARMAS RARAS -->
             <div class="lg:col-span-8 flex flex-col gap-6">
-                
-                <!-- SECCIÓN: MAGIAS (HECHIZOS, PIROMANCIAS Y MILAGROS) -->
+                <!-- SECCIÓN: MAGIAS -->
                 <section class="bg-souls-dark border border-souls-border p-6 rounded-lg">
                     <h3 class="font-cinzel text-xl font-bold text-souls-gold tracking-widest uppercase mb-4 border-b border-souls-border pb-2">
                         Hechizos, Piromancias y Milagros
@@ -238,9 +232,7 @@
                             <button class="w-full bg-souls-card hover:bg-souls-card/80 text-souls-ash text-xs py-1.5 rounded border border-souls-border mb-3 font-semibold uppercase tracking-wider transition-all duration-200" onclick="toggleSublist('sub_hechizos')">
                                 Desplegar Hechizos
                             </button>
-                            <div id="sub_hechizos" class="hidden flex flex-col gap-2 max-h-64 overflow-y-auto pr-1">
-                                <!-- JS inyectará los hechizos -->
-                            </div>
+                            <div id="sub_hechizos" class="hidden flex flex-col gap-2 max-h-64 overflow-y-auto pr-1"></div>
                         </div>
 
                         <!-- Columna: Piromancias -->
@@ -252,9 +244,7 @@
                             <button class="w-full bg-souls-card hover:bg-souls-card/80 text-souls-ash text-xs py-1.5 rounded border border-souls-border mb-3 font-semibold uppercase tracking-wider transition-all duration-200" onclick="toggleSublist('sub_piromancias')">
                                 Desplegar Piromancias
                             </button>
-                            <div id="sub_piromancias" class="hidden flex flex-col gap-2 max-h-64 overflow-y-auto pr-1">
-                                <!-- JS inyectará las piromancias -->
-                            </div>
+                            <div id="sub_piromancias" class="hidden flex flex-col gap-2 max-h-64 overflow-y-auto pr-1"></div>
                         </div>
 
                         <!-- Columna: Milagros -->
@@ -266,9 +256,7 @@
                             <button class="w-full bg-souls-card hover:bg-souls-card/80 text-souls-ash text-xs py-1.5 rounded border border-souls-border mb-3 font-semibold uppercase tracking-wider transition-all duration-200" onclick="toggleSublist('sub_milagros')">
                                 Desplegar Milagros
                             </button>
-                            <div id="sub_milagros" class="hidden flex flex-col gap-2 max-h-64 overflow-y-auto pr-1">
-                                <!-- JS inyectará los milagros -->
-                            </div>
+                            <div id="sub_milagros" class="hidden flex flex-col gap-2 max-h-64 overflow-y-auto pr-1"></div>
                         </div>
                     </div>
                 </section>
@@ -297,16 +285,14 @@
                     </div>
 
                     <!-- Lista filtrable de armas raras -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-96 overflow-y-auto pr-2" id="list_armas">
-                        <!-- JS inyectará las armas raras aquí -->
-                    </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-96 overflow-y-auto pr-2" id="list_armas"></div>
                 </section>
             </div>
         </main>
 
         <!-- FOOTER -->
         <footer class="border-t border-souls-border mt-12 py-6 text-center text-souls-ash text-xs flex flex-col md:flex-row justify-between items-center gap-4">
-            <p>© 2026 El UriiTV. Diseñado especialmente para la transmisión del Platino de Dark Souls Remastered.</p>
+            <p>© 2026 El Uriithuthii. Diseñado especialmente para la transmisión del Platino de Dark Souls Remastered.</p>
             <p class="text-souls-gold/60 font-semibold uppercase tracking-widest font-cinzel">Praise the Sun \`[T]/</p>
         </footer>
     </div>
@@ -328,8 +314,8 @@
     <!-- LÓGICA DE FIREBASE Y FUNCIONALIDAD EN VIVO -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, doc, getDoc, setDoc, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, setDoc, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
         // === DATOS E INFRAESTRUCTURA DE CHECKS ===
         const trackerData = {
@@ -460,27 +446,18 @@
             ]
         };
 
-        // === CONFIGURACIÓN Y CONEXIÓN DE BASE DE DATOS ===
-        const appId = typeof __app_id !== 'undefined' ? __app_id : 'ds-platino-uriitv';
-        const defaultFirebaseConfig = {
-        apiKey: "AIzaSyCqyKSWZMCyzV_gIzIuTC9imj9kwTcGpx8",
-        authDomain: "web-interactiva-b0f46.firebaseapp.com",
-        databaseURL: "https://web-interactiva-b0f46-default-rtdb.firebaseio.com",
-        projectId: "web-interactiva-b0f46",
-        storageBucket: "web-interactiva-b0f46.firebasestorage.app",
-        messagingSenderId: "968479431900",
-        appId: "1:968479431900:web:f48ce798573d37a755a819",
-        measurementId: "G-RSFPND4W50"
+        // === CONFIGURACIÓN REAL DE FIREBASE EXTRAÍDA DEL USUARIO ===
+        const firebaseConfig = {
+            const defaultFirebaseConfig = {
+            apiKey: "AIzaSyCqyKSWZMCyzV_gIzIuTC9imj9kwTcGpx8",
+            authDomain: "web-interactiva-b0f46.firebaseapp.com",
+            databaseURL: "https://web-interactiva-b0f46-default-rtdb.firebaseio.com",
+            projectId: "web-interactiva-b0f46",
+            storageBucket: "web-interactiva-b0f46.firebasestorage.app",
+            messagingSenderId: "968479431900",
+            appId: "1:968479431900:web:f48ce798573d37a755a819",
+            measurementId: "G-RSFPND4W50"
         };
-
-        let firebaseConfig = defaultFirebaseConfig;
-        try {
-            if (typeof __firebase_config !== 'undefined') {
-                firebaseConfig = JSON.parse(__firebase_config);
-            }
-        } catch(e) {
-            console.warn("Utilizando configuración de respaldo de Firebase.");
-        }
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
@@ -491,19 +468,15 @@
         let hasStreamerAccess = false;
         let globalCheckedItems = {}; // { item_id: boolean }
 
-        // Referencia estricta del documento para cumplir con las reglas del sistema
-        // path: /artifacts/{appId}/public/data/trackerState/global
+        // Ruta de colección unificada para este artefacto
+        const appId = 'ds-platino-uriitv';
         const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'trackerState', 'global');
 
         // === PROCESOS DE AUTENTICACIÓN ===
         async function authenticate() {
             try {
-                // RULE 3: Auth Before Queries (Intenta custom token de entorno, luego fallback anónimo)
-                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-                    await signInWithCustomToken(auth, __initial_auth_token);
-                } else {
-                    await signInAnonymously(auth);
-                }
+                // Autenticación anónima por defecto para que funcione sin registrarse
+                await signInAnonymously(auth);
                 setupRealtimeSync();
             } catch (err) {
                 console.error("Error de autenticación Firebase:", err);
@@ -512,12 +485,10 @@
 
         // === SINCRONIZACIÓN DE BASE DE DATOS ===
         function setupRealtimeSync() {
-            // Escucha cambios en tiempo real en la colección
             onSnapshot(docRef, (docSnap) => {
                 if (docSnap.exists()) {
                     globalCheckedItems = docSnap.data().checked || {};
                 } else {
-                    // Si el documento no existe en nexo inicial, lo creamos vacío
                     globalCheckedItems = {};
                     setDoc(docRef, { checked: {} }).catch(e => console.error(e));
                 }
@@ -527,7 +498,7 @@
             });
         }
 
-        // Guardar cambio de casilla en Firestore (Solo permitido al Streamer autenticado)
+        // Guardar cambios en Firestore
         async function saveItemState(id, checked) {
             if (currentRole !== 'streamer' || !hasStreamerAccess) return;
             
@@ -537,7 +508,6 @@
                     [`checked.${id}`]: checked
                 });
             } catch (e) {
-                // Si falla update, intentamos setDoc completo como fallback
                 await setDoc(docRef, { checked: globalCheckedItems }, { merge: true });
             }
         }
@@ -558,7 +528,7 @@
                 pactosContainer.appendChild(createItemDOM(item, 'pactos'));
             });
 
-            // 3. Magias (Hechizos, Piromancias, Milagros)
+            // 3. Magias
             renderSublist("sub_hechizos", trackerData.hechizos);
             renderSublist("sub_piromancias", trackerData.piromancias);
             renderSublist("sub_milagros", trackerData.milagros);
@@ -583,7 +553,6 @@
             });
         }
 
-        // Generador de tarjeta / item DOM
         function createItemDOM(item, category) {
             const div = document.createElement("div");
             div.className = "item bg-souls-card border border-souls-border p-3 rounded flex items-center gap-3 transition-all duration-200 select-none";
@@ -607,7 +576,6 @@
             label.className = "text-xs md:text-sm font-semibold tracking-wide cursor-pointer flex-grow text-gray-300";
             label.innerText = item.label;
 
-            // Al hacer clic en el contenedor también dispara el check si eres el streamer
             div.addEventListener("click", (e) => {
                 if (currentRole === 'streamer' && hasStreamerAccess && e.target.tagName !== 'INPUT' && e.target.tagName !== 'LABEL') {
                     checkbox.checked = !checkbox.checked;
@@ -615,7 +583,6 @@
                 }
             });
 
-            // Decorar según tipo / tag
             if (item.tag === 'boss') {
                 const icon = document.createElement("span");
                 icon.className = "material-icons text-souls-gold text-xs shrink-0";
@@ -653,7 +620,6 @@
             });
         };
 
-        // Mostrar / Ocultar sublistas de magias
         window.toggleSublist = function(id) {
             const sub = document.getElementById(id);
             sub.classList.toggle("hidden");
@@ -664,7 +630,6 @@
             let totalChecked = 0;
             let totalCount = 0;
 
-            // Recorremos todas las categorías para pintar los checks y calcular estadísticas
             for (const category in trackerData) {
                 let catChecked = 0;
                 const catTotal = trackerData[category].length;
@@ -690,35 +655,30 @@
                     totalCount++;
                 });
 
-                // Actualizar badges por categoría
                 const badge = document.getElementById(`badgeProg_${category}`);
                 if (badge) {
                     badge.innerText = `${catChecked}/${catTotal}`;
                 }
             }
 
-            // Actualizar Bonfire, barra y textos de progreso
             const percent = totalCount > 0 ? Math.round((totalChecked / totalCount) * 100) : 0;
             
             document.getElementById("txtProgressPercent").innerText = `${percent}%`;
             document.getElementById("barProgress").style.width = `${percent}%`;
             document.getElementById("txtProgressFraction").innerText = `${totalChecked} de ${totalCount} hitos completados`;
 
-            // Escala física de la llama de la hoguera según porcentaje
             const flameGroup = document.getElementById("bonfireFlames");
             const glow = document.getElementById("bonfireGlow");
             
             if (flameGroup && glow) {
-                const scale = 0.4 + (percent / 100) * 0.8; // Escala entre 0.4x y 1.2x
+                const scale = 0.4 + (percent / 100) * 0.8;
                 flameGroup.style.transform = `scale(${scale})`;
                 
-                // Brillo de fondo
-                const glowIntensity = 10 + (percent / 100) * 30; // Brillo blur px
+                const glowIntensity = 10 + (percent / 100) * 30;
                 const opacity = 0.05 + (percent / 100) * 0.4;
                 glow.style.boxShadow = `0 0 ${glowIntensity}px rgba(230, 92, 0, ${opacity})`;
             }
 
-            // Lanzar pantalla de éxito al 100%
             if (percent === 100) {
                 document.getElementById("modalSuccess").classList.remove("hidden");
             }
@@ -751,14 +711,11 @@
 
         window.verifyAndAuthStreamer = function() {
             const pin = document.getElementById("inputPIN").value;
-            // Un PIN de prueba súper directo: "urii" (puedes cambiarlo aquí)
             if (pin === "urii") {
                 hasStreamerAccess = true;
                 document.getElementById("btnResetAll").classList.remove("hidden");
                 enableInputsOnUI();
-                alert("¡Nexo de control desbloqueado! Ya puedes realizar checks en la lista.");
             } else {
-                alert("PIN incorrecto. Los cambios siguen bloqueados para prevenir sabotajes.");
                 hasStreamerAccess = false;
                 disableInputsOnUI();
             }
@@ -783,12 +740,9 @@
         }
 
         window.confirmResetAll = async function() {
-            if (confirm("¿Estás seguro de que deseas vaciar todo el progreso de la hoguera? Esta acción no se puede deshacer.")) {
-                globalCheckedItems = {};
-                await setDoc(docRef, { checked: {} });
-                updateUIState();
-                alert("Progreso reiniciado correctamente.");
-            }
+            globalCheckedItems = {};
+            await setDoc(docRef, { checked: {} });
+            updateUIState();
         };
 
         window.closeSuccessModal = function() {
@@ -799,7 +753,7 @@
         window.addEventListener("DOMContentLoaded", () => {
             renderChecklists();
             authenticate();
-            setRole('viewer'); // Inicializamos como lector para seguridad
+            setRole('viewer');
         });
     </script>
 </body>
